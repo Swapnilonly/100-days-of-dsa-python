@@ -120,3 +120,46 @@ This pattern is commonly used in:
 - Find All Anagrams in a String
 - Permutation in String
 - Sliding Window with Character Frequencies
+
+
+
+
+
+# Majority Element II
+
+## Problem
+Find **all elements** that appear **more than ⌊n/3⌋ times** in the given array.
+
+If no such element exists, return an empty list.
+
+## Concept
+- Boyer-Moore Voting Algorithm (Extended Version)
+- Candidate Elimination
+- Frequency Verification
+
+## Approach
+- Since an element must appear more than `⌊n/3⌋` times, there can be **at most two majority elements**.
+- Maintain two candidates (`candidate1`, `candidate2`) and their counts (`count1`, `count2`).
+- Traverse the array once:
+  - If the current number matches a candidate, increment its count.
+  - If a candidate's count becomes `0`, replace it with the current number.
+  - Otherwise, decrement both counts.
+- After the first pass, the remaining candidates are only **possible** majority elements.
+- Traverse the array again to count their actual frequencies.
+- Return the candidates whose frequency is greater than `⌊n/3⌋`.
+
+## Time Complexity
+- **O(n)**
+  - `O(n)` for selecting possible candidates.
+  - `O(n)` for verifying their frequencies.
+  - Overall: **O(n)**
+
+## Space Complexity
+- **O(1)**
+
+## Key Learning
+- There can be **at most two** elements occurring more than `⌊n/3⌋` times.
+- The first pass finds only **potential candidates**, not guaranteed answers.
+- A second pass is required to verify the actual frequencies.
+- The algorithm uses **candidate elimination**, where counts are decreased when encountering a third distinct element.
+- This is the **Extended Boyer-Moore Voting Algorithm**, achieving **O(n)** time and **O(1)** extra space.
