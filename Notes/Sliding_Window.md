@@ -675,67 +675,6 @@ Discard it
 Start fresh
 ```
 
----
-
-## Dry Run
-
-```
-nums
-
--2
-
-1
-
--3
-
-4
-
--1
-
-2
-
-1
-
--5
-
-4
-```
-
-```
-current
-
--2
-
-1
-
--2
-
-4
-
-3
-
-5
-
-6
-
-1
-
-5
-```
-
-Maximum
-
-```
-6
-```
-
-Subarray
-
-```
-[4,-1,2,1]
-```
-
----
 
 ## Template
 
@@ -936,3 +875,135 @@ Negative Numbers + Sum Constraint
         ↓
 Think Prefix Sum / Kadane instead of Sliding Window
 ```
+
+
+
+
+# Longest Substring Without Repeating Characters
+
+## Problem
+Given a string `s`, find the **length of the longest substring** without repeating characters.
+
+A **substring** is a contiguous sequence of characters.
+
+---
+
+## Concept
+- Variable Sliding Window
+- Two Pointers (`left` and `right`)
+- Hash Set
+- Unique Characters
+- Window Expansion & Shrinking
+
+---
+
+## Approach
+- Initialize:
+  - `left = 0`
+  - An empty Hash Set `seen`
+  - `max_length = 0`
+- Traverse the string using the `right` pointer.
+- If the current character already exists in the Hash Set:
+  - Shrink the window by removing characters from the left.
+  - Continue shrinking until the duplicate character is removed.
+- Add the current character to the Hash Set.
+- Update the maximum window length.
+- Continue until the entire string has been processed.
+
+---
+
+## Dry Run
+
+```text
+s = "abcabcbb"
+```
+
+---
+
+## Time Complexity
+- **O(n)**
+  - Each character enters the window once.
+  - Each character leaves the window once.
+  - Both pointers together traverse the string only once.
+
+---
+
+## Space Complexity
+- **O(k)**
+  - Where `k` is the number of unique characters in the current window.
+  - In the worst case, all characters are unique, so the space complexity becomes **O(n)**.
+
+---
+
+## Key Learning
+
+### Variable Sliding Window Pattern
+- Use this pattern when the **window size is not fixed**.
+- Expand the window while the current character is unique.
+- If a duplicate character is found, shrink the window until it becomes valid again.
+- Every character is:
+  - Added to the window **once**.
+  - Removed from the window **once**.
+- This makes the overall time complexity **O(n)**.
+
+The window **slides**, it never **restarts**.
+
+---
+
+## Pattern Recognition
+
+Use **Variable Sliding Window** when you see:
+
+- Longest Substring Without Repeating Characters
+- Longest Repeating Character Replacement
+- Minimum Window Substring
+- Permutation in String
+- Find All Anagrams in a String
+- Fruits Into Baskets
+
+Common keywords:
+- **Longest**
+- **Shortest**
+- **Unique Characters**
+- **Distinct Elements**
+- **Duplicate Characters**
+- **Contiguous Substring**
+- **Window Condition**
+
+---
+
+## Generic Template
+
+```python
+left = 0
+seen = set()
+
+for right in range(len(s)):
+    while s[right] in seen:
+        seen.remove(s[left])
+        left += 1
+
+    seen.add(s[right])
+
+    answer = max(answer, right - left + 1)
+```
+
+---
+
+## Key Takeaway
+
+Remember these two rules:
+
+```text
+Current character is unique?
+→ Move Right (Expand Window)
+```
+
+```text
+Current character is already present in the window?
+→ Move Left (Shrink Window)
+```
+
+The window **never restarts**.
+
+It only **expands** and **shrinks** while maintaining the condition that all characters inside the window are unique.
