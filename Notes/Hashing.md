@@ -163,3 +163,55 @@ If no such element exists, return an empty list.
 - A second pass is required to verify the actual frequencies.
 - The algorithm uses **candidate elimination**, where counts are decreased when encountering a third distinct element.
 - This is the **Extended Boyer-Moore Voting Algorithm**, achieving **O(n)** time and **O(1)** extra space.
+
+
+
+# Top K Frequent Elements
+
+## Problem
+Given an integer array `nums` and an integer `k`, return the **k most frequent elements**.
+
+You may return the answer in **any order**.
+
+---
+
+## Concept
+- Hash Map (Frequency Counting)
+- Bucket Sort
+- Frequency-Based Grouping
+
+---
+
+## Approach
+- Count the frequency of each element using a hash map.
+- Create a bucket array of size `n + 1`, where each index represents a frequency.
+- Store each number in the bucket corresponding to its frequency.
+- Traverse the bucket from the highest frequency to the lowest.
+- Collect elements until `k` elements have been added to the result.
+- Return the result.
+
+---
+
+## Time Complexity
+- **O(n)**
+  - `O(n)` to count frequencies.
+  - `O(n)` to place elements into buckets.
+  - `O(n)` to traverse the buckets.
+  - Overall: **O(n)**
+
+---
+
+## Space Complexity
+- **O(n)**
+  - Hash map stores frequencies.
+  - Bucket array stores grouped elements.
+
+---
+
+## Key Learning
+- A hash map efficiently counts the frequency of each element.
+- The maximum possible frequency of any element is `n`, so a bucket array of size `n + 1` is sufficient.
+- The bucket index represents the frequency, and each bucket stores all elements with that frequency.
+- Traversing the bucket from the end naturally retrieves elements in decreasing order of frequency.
+- This Bucket Sort approach avoids sorting the frequency map, improving the time complexity from **O(n log n)** to **O(n)**.
+- This problem is a classic example of combining **Hashing + Bucket Sort** for optimal performance.
