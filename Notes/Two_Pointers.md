@@ -89,3 +89,28 @@ Return the number of unique elements (`k`). The first `k` elements of the array 
 - Remove Element
 - Merge Sorted Array
 - Squares of a Sorted Array
+
+
+
+## Problem
+Given a string `s`, return `true` if it is a palindrome after converting all uppercase letters to lowercase and removing all non-alphanumeric characters. Otherwise, return `false`.
+
+## Concept
+- String Manipulation
+- String Preprocessing
+- Character Filtering
+- String Reversal
+
+## Approach
+- Traverse each character in the string.
+- Keep only alphanumeric characters using `isalnum()`.
+- Convert uppercase letters to lowercase using `lower()`.
+- Merge all valid characters into a new string using `"".join()`.
+- Compare the processed string with its reversed version using `[::-1]`.
+- If both strings are equal, return `True`; otherwise, return `False`.
+
+## Time Complexity
+- **O(n)**
+
+## Space Complexity
+- **O(n)**
