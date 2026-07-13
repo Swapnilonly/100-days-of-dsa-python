@@ -215,3 +215,55 @@ You may return the answer in **any order**.
 - Traversing the bucket from the end naturally retrieves elements in decreasing order of frequency.
 - This Bucket Sort approach avoids sorting the frequency map, improving the time complexity from **O(n log n)** to **O(n)**.
 - This problem is a classic example of combining **Hashing + Bucket Sort** for optimal performance.
+
+
+
+
+# Longest Consecutive Sequence
+
+## Problem
+Given an unsorted integer array `nums`, return the **length of the longest consecutive sequence**.
+
+You must write an algorithm that runs in **O(n)** time.
+
+---
+
+## Concept
+- Hash Set
+- Sequence Detection
+- Constant Time Lookup
+
+---
+
+## Approach
+- Store all elements in a hash set for `O(1)` average lookup.
+- Iterate through each unique element in the set.
+- Check whether the current element is the **start of a sequence** by verifying that `num - 1` is **not** in the set.
+- If it is the start, keep checking for the next consecutive numbers (`num + 1`, `num + 2`, ...) until the sequence ends.
+- Track the length of the current sequence.
+- Update the maximum sequence length found.
+- Return the longest consecutive sequence length.
+
+---
+
+## Time Complexity
+- **O(n)**
+  - `O(n)` to insert all elements into the hash set.
+  - Each element is visited at most once while expanding sequences.
+  - Overall: **O(n)**
+
+---
+
+## Space Complexity
+- **O(n)**
+  - Hash set stores all unique elements.
+
+---
+
+## Key Learning
+- A hash set provides **O(1)** average-time membership checks, making it ideal for this problem.
+- Only begin counting from numbers that **do not have a predecessor (`num - 1`)**.
+- This prevents traversing the same sequence multiple times.
+- Each consecutive sequence is explored exactly once, giving an overall **O(n)** time complexity.
+- Sorting the array would take **O(n log n)**, which does not satisfy the problem's requirement.
+- This problem demonstrates how hashing can replace sorting to achieve linear-time solutions.
