@@ -153,3 +153,49 @@ Return the maximum amount of water the container can store.
   - `height = min(height[left], height[right])`
   - `area = width * height`
 - Two Pointers reduce the brute-force solution from **O(n²)** to **O(n)**.
+
+
+
+
+
+## Problem
+Given `n` non-negative integers representing an elevation map where the width of each bar is `1`, compute how much rainwater can be trapped after raining.
+
+## Concept
+- Two Pointers
+- Prefix Maximum & Suffix Maximum
+- Greedy
+- Water Level Calculation
+
+## Approach
+- Initialize two pointers: `left` at the beginning and `right` at the end.
+- Maintain two variables:
+  - `left_max` → Maximum height seen from the left.
+  - `right_max` → Maximum height seen from the right.
+- If `height[left] < height[right]`:
+  - Update `left_max` if the current height is greater.
+  - Otherwise, trapped water at this index is `left_max - height[left]`.
+  - Move the `left` pointer.
+- Otherwise:
+  - Update `right_max` if the current height is greater.
+  - Otherwise, trapped water at this index is `right_max - height[right]`.
+  - Move the `right` pointer.
+- Continue until both pointers meet.
+- Return the total trapped water.
+
+## Time Complexity
+- **O(n)**
+
+## Space Complexity
+- **O(1)**
+
+## Key Learning
+- Water trapped at an index depends on the **smaller** of the tallest bars on its left and right.
+- Water at an index is calculated as:
+  - `min(left_max, right_max) - current_height`
+- If the calculated water is negative, treat it as **0**.
+- The shorter boundary determines the maximum water level.
+- Two Pointers eliminate the need for Prefix and Suffix arrays, reducing space complexity from **O(n)** to **O(1)**.
+- This problem is different from **Container With Most Water**:
+  - **Container With Most Water:** `Area = Width × Min(Left Height, Right Height)`
+  - **Trapping Rain Water:** `Water = Min(Left Max, Right Max) - Current Height`
