@@ -114,3 +114,42 @@ Given a string `s`, return `true` if it is a palindrome after converting all upp
 
 ## Space Complexity
 - **O(n)**
+
+
+
+## Problem
+Given `n` non-negative integers representing the heights of vertical lines, find two lines that together with the x-axis form a container that holds the maximum amount of water.
+
+Return the maximum amount of water the container can store.
+
+## Concept
+- Two Pointers
+- Greedy Approach
+- Width × Height Calculation
+
+## Approach
+- Place one pointer at the beginning (`left`) and the other at the end (`right`) of the array.
+- Calculate the width as `right - left`.
+- Calculate the height as the minimum of the two boundary heights.
+- Compute the current area using `width × height`.
+- Update the maximum area found so far.
+- Move the pointer pointing to the shorter line inward.
+- If both heights are equal, move either pointer (or both); the optimal solution usually moves one pointer.
+- Continue until both pointers meet.
+
+## Time Complexity
+- **O(n)**
+
+## Space Complexity
+- **O(1)**
+
+## Key Learning
+- The container's height is always limited by the shorter of the two lines.
+- The width decreases after every pointer movement, so a larger area is only possible by finding a taller line.
+- Always move the pointer with the smaller height, as moving the taller one cannot increase the current container height.
+- Width is calculated as `right - left`, **not** `right - left + 1`.
+- Area is calculated using:
+  - `width = right - left`
+  - `height = min(height[left], height[right])`
+  - `area = width * height`
+- Two Pointers reduce the brute-force solution from **O(n²)** to **O(n)**.
