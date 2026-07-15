@@ -199,3 +199,82 @@ Given `n` non-negative integers representing an elevation map where the width of
 - This problem is different from **Container With Most Water**:
   - **Container With Most Water:** `Area = Width × Min(Left Height, Right Height)`
   - **Trapping Rain Water:** `Water = Min(Left Max, Right Max) - Current Height`
+
+
+
+
+# 3Sum
+
+## Problem
+Given an integer array `nums`, return all the unique triplets `[nums[i], nums[j], nums[k]]` such that:
+
+- `i != j`
+- `i != k`
+- `j != k`
+
+and
+
+```
+nums[i] + nums[j] + nums[k] == 0
+```
+
+The solution set must **not contain duplicate triplets**.
+
+---
+
+## Concept
+
+- Sorting
+- Two Pointers
+- Duplicate Handling
+- Greedy Pointer Movement
+
+---
+
+## Intuition
+
+After sorting the array:
+
+- Fix one element (`i`).
+- Search for the remaining two numbers using the **Two Pointer** technique.
+- Since the array is sorted:
+  - If the sum is too small, move the **left** pointer.
+  - If the sum is too large, move the **right** pointer.
+  - If the sum is zero, store the triplet and skip duplicates.
+
+Sorting helps efficiently eliminate duplicate triplets.
+
+
+## Time Complexity
+
+- Sorting → **O(n log n)**
+- Outer Loop → **O(n)**
+- Two Pointers → **O(n)**
+
+Overall:
+
+**O(n²)**
+
+---
+
+## Space Complexity
+
+- **O(1)** (excluding the output list)
+
+---
+
+## Key Learning
+
+- Sort the array before applying Two Pointers.
+- Fix one element and solve the remaining problem as **2Sum**.
+- Skip duplicate values of:
+  - `i`
+  - `left`
+  - `right`
+- After finding a valid triplet:
+  - Move both pointers.
+  - Then skip duplicates.
+- Since the array is sorted:
+  - Move `left` when the sum is too small.
+  - Move `right` when the sum is too large.
+- This is the optimal solution with **O(n²)** time complexity and is the standard interview approach.
