@@ -267,3 +267,79 @@ You must write an algorithm that runs in **O(n)** time.
 - Each consecutive sequence is explored exactly once, giving an overall **O(n)** time complexity.
 - Sorting the array would take **O(n log n)**, which does not satisfy the problem's requirement.
 - This problem demonstrates how hashing can replace sorting to achieve linear-time solutions.
+
+
+
+# Group Anagrams
+
+## Problem
+Given an array of strings `strs`, group the anagrams together. You can return the answer in any order.
+
+## Understanding `ord(ch) - ord('a')`
+The `ord()` function returns the ASCII (Unicode) value of a character.
+
+An **anagram** is a word or phrase formed by rearranging the letters of another word while using all the original letters exactly once.
+
+## Concept
+- Hash Map (Dictionary)
+- String Sorting
+- Grouping by Common Key
+
+## Approach
+- Create an empty dictionary to group anagrams.
+- Traverse each string in the input array.
+- For each string:
+  - Sort its characters.
+  - Convert the sorted characters back into a string to use as the dictionary key.
+    ```
+    key = ''.join(sorted(word))
+    ```
+  - If the key does not exist in the dictionary:
+    - Create a new list with the current word.
+  - Otherwise:
+    - Append the current word to the existing list.
+- After processing all words, return all the dictionary values as the final grouped anagrams.
+
+## Time Complexity
+- **O(n × k log k)**
+  - `n` = Number of strings.
+  - `k` = Average length of each string.
+  - Sorting each string takes **O(k log k)**.
+
+## Space Complexity
+- **O(n × k)**
+  - The hash map stores every string in one of the groups.
+  - The sorted keys also require additional space.
+
+## Key Learning
+### The sorted string acts as a unique signature for every anagram group.
+- Anagrams contain the same characters, so sorting them always produces the same result.
+- Use the sorted string as the **key** and store the original strings as the **value**.
+- A Hash Map efficiently groups all strings sharing the same sorted representation.
+- Dictionary lookup and insertion are **O(1)** on average.
+- This is a classic example of the **Grouping Pattern** using a Hash Map.
+- Whenever multiple items should be grouped based on a common property, think about generating a unique key and storing them in a dictionary.
+
+
+## Pattern Recognition
+When you encounter problems that ask you to:
+- Group similar strings
+- Find anagrams
+- Classify elements by a common property
+- Organize data into categories
+
+Think of:
+- **Hash Map**
+- **Generate a unique key**
+- **Store related elements in a list**
+
+## Optimization (Interview Follow-up)
+Instead of sorting every string, count the frequency of each character.
+Use the 26-character frequency array as a tuple
+This tuple becomes the dictionary key.
+
+### Complexity of Optimized Approach
+- **Time Complexity:** O(n × k)
+- **Space Complexity:** O(n × k)
+
+This optimization avoids sorting and is commonly asked as a follow-up in interviews.
