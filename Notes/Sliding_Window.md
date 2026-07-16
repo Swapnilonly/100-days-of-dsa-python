@@ -1091,3 +1091,92 @@ An **anagram** is a word formed by rearranging the letters of another word while
 * This makes the overall time complexity **O(n)**.
 
 The window **slides**, it never **restarts**.
+
+
+# Longest Repeating Character Replacement
+
+## Problem
+
+You are given a string `s` and an integer `k`. You can replace at most `k` characters with any uppercase English character.
+
+Return the **length of the longest substring** containing the same letter after performing at most `k` replacements.
+
+---
+
+## Concept
+
+* Variable Sliding Window
+* Two Pointers (`left` and `right`)
+* Hash Map (Frequency Count)
+* Window Expansion & Shrinking
+* Maximum Frequency Tracking
+
+---
+
+## Approach
+
+* Initialize:
+
+  * `left = 0`
+  * An empty frequency map `freq`
+  * `maxFreq = 0`
+  * `maxLength = 0`
+* Traverse the string using the `right` pointer.
+* Add the current character to the frequency map.
+* Update the maximum frequency character in the current window.
+* Check whether the current window is valid using:
+
+  * `(window size - maxFreq) <= k`
+* If the window becomes invalid:
+
+  * Decrease the frequency of the left character.
+  * Move the left pointer until the window becomes valid.
+* Update the maximum window length.
+* Continue until the entire string has been processed.
+
+---
+
+## Time Complexity
+
+* **O(n)**
+
+  * Each character enters the window once.
+  * Each character leaves the window at most once.
+  * Both pointers together traverse the string only once.
+
+---
+
+## Space Complexity
+
+* **O(k)**
+
+  * Where `k` is the number of distinct characters in the current window.
+  * Since the string contains only uppercase English letters, the space complexity becomes **O(1)**.
+
+---
+
+## Key Learning
+
+### Variable Sliding Window Pattern
+
+* Use this pattern when the **window size is not fixed**.
+
+* Expand the window while it remains valid.
+
+* A window is valid when:
+
+  `window size - maximum frequency <= k`
+
+* If the window becomes invalid, shrink it from the left.
+
+* Track the maximum frequency character in the current window.
+
+* Every character is:
+
+  * Added to the window **once**.
+  * Removed from the window **at most once**.
+
+* This makes the overall time complexity **O(n)**.
+
+The window **slides**, it never **restarts**.
+
