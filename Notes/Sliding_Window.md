@@ -1007,3 +1007,87 @@ Current character is already present in the window?
 The window **never restarts**.
 
 It only **expands** and **shrinks** while maintaining the condition that all characters inside the window are unique.
+
+
+
+# Find All Anagrams in a String
+
+## Problem
+
+Given two strings `s` and `p`, return an array of all the start indices of `p`'s **anagrams** in `s`.
+
+An **anagram** is a word formed by rearranging the letters of another word while using all the original characters exactly once.
+
+---
+
+## Concept
+
+* Fixed Sliding Window
+* Two Pointers (`left` and `right`)
+* Hash Map (`defaultdict` / `Counter`)
+* Character Frequency Counting
+* Window Expansion & Shrinking
+
+---
+
+## Approach
+
+* Initialize:
+
+  * `left = 0`
+  * An empty frequency map `window`
+  * A frequency map `count` for string `p`
+  * An empty list `result`
+* Traverse the string using the `right` pointer.
+* Add the current character to the window frequency.
+* If the window size becomes greater than `len(p)`:
+
+  * Decrease the frequency of the left character.
+  * Remove the key if its frequency becomes `0`.
+  * Move the left pointer.
+* Compare the current window frequency with the pattern frequency.
+* If both frequency maps are equal:
+
+  * Append the current `left` index to the result.
+* Continue until the entire string has been processed.
+
+---
+
+## Time Complexity
+
+* **O(n)**
+
+  * Traverse the string using a fixed sliding window.
+  * Each character enters the window once.
+  * Each character leaves the window once.
+
+---
+
+## Space Complexity
+
+* **O(k)**
+
+  * Where `k` is the number of distinct characters.
+  * Two frequency maps are maintained.
+  * For lowercase English letters, the space complexity becomes **O(1)**.
+
+---
+
+## Key Learning
+
+### Fixed Sliding Window Pattern
+
+* Use this pattern when the **window size is fixed**.
+* Maintain the frequency of the current window.
+* Expand the window by moving the `right` pointer.
+* If the window size exceeds the required size, shrink it by moving the `left` pointer.
+* Compare the current window frequency with the target frequency.
+* Decrease the frequency of the left character instead of deleting it directly.
+* Remove a key only when its frequency becomes `0`.
+* Every character is:
+
+  * Added to the window **once**.
+  * Removed from the window **once**.
+* This makes the overall time complexity **O(n)**.
+
+The window **slides**, it never **restarts**.
