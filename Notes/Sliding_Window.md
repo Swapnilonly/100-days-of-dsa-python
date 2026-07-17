@@ -1180,3 +1180,105 @@ Return the **length of the longest substring** containing the same letter after 
 
 The window **slides**, it never **restarts**.
 
+
+
+# Permutation in String
+
+## Problem
+
+Given two strings `s1` and `s2`, return `True` if `s2` contains a permutation of `s1`; otherwise, return `False`.
+
+A permutation means the same characters with the same frequency, but in any order.
+
+---
+
+## Concept
+
+### Sliding Window + Frequency Counter
+
+Since any valid permutation must have the **same length as `s1`**, we use a sliding window of size `len(s1)` over `s2`.
+
+For each window:
+
+1. Maintain the frequency of characters inside the current window.
+2. Compare it with the frequency of `s1`.
+3. If both frequency maps are equal, we found a permutation.
+
+Instead of creating a new frequency map for every window, we update the existing one by:
+
+* Adding the new character entering the window.
+* Removing the leftmost character leaving the window.
+
+This avoids recalculating frequencies repeatedly.
+
+---
+
+## Approach
+
+1. If `len(s1) > len(s2)`, return `False`.
+2. Create a frequency map for `s1` using `Counter`.
+3. Create an empty frequency map for the current window.
+4. Initialize the left pointer.
+5. Iterate through `s2` using the right pointer:
+
+   * Add the current character to the window.
+   * If the window size becomes larger than `len(s1)`, remove the leftmost character and move the left pointer.
+   * Compare the current window frequency with the target frequency.
+   * If both are equal, return `True`.
+6. If no matching window is found, return `False`.
+
+---
+
+## Time Complexity
+
+* Building the target frequency map: **O(m)**
+* Sliding the window through `s2`: **O(n)**
+* Comparing frequency maps: **O(26)** (only lowercase English letters)
+
+**Overall Time Complexity: O(n)**
+
+where:
+
+* `n = len(s2)`
+* `m = len(s1)`
+
+---
+
+## Space Complexity
+
+* Target frequency map: **O(26)**
+* Window frequency map: **O(26)**
+
+**Overall Space Complexity: O(1)**
+
+---
+
+## Key Learning
+
+* A permutation always has the **same length** as the original string.
+* Sliding Window avoids checking every substring from scratch.
+* `Counter` makes frequency counting simple and readable.
+* Update the window incrementally:
+
+  * Add the incoming character.
+  * Remove the outgoing character.
+* Delete keys whose frequency becomes `0` to keep the window map clean and allow direct comparison with the target map.
+* Comparing two frequency maps is efficient because there are at most **26 lowercase English letters**.
+
+---
+
+## Pattern
+
+* Sliding Window
+* Hash Map / Counter
+* Frequency Counting
+
+---
+
+## Similar Problems
+
+* 438. Find All Anagrams in a String
+* 424. Longest Repeating Character Replacement
+* 76. Minimum Window Substring
+* 3. Longest Substring Without Repeating Characters
+
