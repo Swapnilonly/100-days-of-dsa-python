@@ -165,3 +165,90 @@ In the worst case, all characters are opening brackets and remain in the stack.
 * `if ch not in check` checks **dictionary keys**, not values.
 * Always check `if not stack` before accessing `stack[-1]` or calling `stack.pop()` to avoid errors.
 * The stack must be **empty at the end** for the string to be valid.
+
+
+
+
+# 155. Min Stack
+
+## Problem
+
+Design a stack that supports the following operations in **O(1)** time.
+
+- `push(x)` → Push element onto the stack.
+- `pop()` → Remove the top element.
+- `top()` → Return the top element.
+- `getMin()` → Retrieve the minimum element in the stack.
+
+---
+
+## Concept
+
+A normal stack allows us to perform **push**, **pop**, and **top** in **O(1)** time.
+
+However, finding the minimum using `min(stack)` takes **O(n)** because we have to scan the entire stack.
+
+To solve this efficiently, we maintain an **auxiliary stack (min_stack)**.
+
+The `min_stack` stores the minimum element seen so far after every push operation.
+
+This allows `getMin()` to return the minimum element in **O(1)** time.
+
+---
+
+## Approach
+
+- Maintain two stacks:
+  - `stack` → Stores all elements.
+  - `min_stack` → Stores the minimum element corresponding to each position.
+
+### Push
+
+- Push the value into the main stack.
+- If `min_stack` is empty, push the value.
+- Otherwise, push:
+
+```python
+min(current_value, min_stack[-1])
+```
+
+This ensures the top of `min_stack` always contains the current minimum.
+
+### Pop
+
+- Remove the top element from both stacks.
+
+### Top
+
+- Return the top element of the main stack.
+
+### Get Minimum
+
+- Return the top element of `min_stack`.
+
+---
+
+## Time Complexity
+
+- **Push:** O(1)
+- **Pop:** O(1)
+- **Top:** O(1)
+- **Get Minimum:** O(1)
+
+---
+
+## Space Complexity
+
+- **O(n)**
+
+An extra stack is maintained to store the minimum value at every position.
+
+---
+
+## Key Learning
+
+- A normal stack cannot return the minimum element in **O(1)**.
+- Using an auxiliary stack allows all operations to remain **O(1)**.
+- `min_stack` stores the minimum value up to the current position, not just newly inserted minimum values.
+- Duplicating minimum values avoids recalculating the minimum after a `pop()` operation.
+- This is one of the most common stack interview questions and demonstrates how an extra data structure can optimize query operations.
