@@ -252,3 +252,94 @@ An extra stack is maintained to store the minimum value at every position.
 - `min_stack` stores the minimum value up to the current position, not just newly inserted minimum values.
 - Duplicating minimum values avoids recalculating the minimum after a `pop()` operation.
 - This is one of the most common stack interview questions and demonstrates how an extra data structure can optimize query operations.
+
+
+# 844. Backspace String Compare
+
+## Problem
+
+Given two strings `s` and `t` containing lowercase letters and the `'#'` character, determine if they are equal after processing all backspaces.
+
+- `'#'` represents a backspace character.
+- A backspace deletes the character immediately before it.
+- Return `true` if both processed strings are equal; otherwise, return `false`.
+
+---
+
+## Concept
+
+Instead of building the final strings using a stack, we can process both strings **from right to left**.
+
+Why?
+
+- A `'#'` always deletes the character to its left.
+- While traversing backwards, we already know how many characters need to be skipped.
+- Maintain a **skip counter** to keep track of pending deletions.
+- This eliminates the need for an extra stack and achieves **O(1)** space.
+
+---
+
+## Approach
+
+- Initialize two pointers:
+  - `i` at the end of `s`
+  - `j` at the end of `t`
+- Maintain two skip counters:
+  - `skipS`
+  - `skipT`
+- For each string:
+  - If current character is `'#'`, increment the skip counter.
+  - If current character is a letter and `skip > 0`, decrement the skip counter and skip the character.
+  - Otherwise, the character is valid.
+- Compare the valid characters of both strings.
+- If they differ, return `false`.
+- Continue until both strings are completely processed.
+- If no mismatch is found, return `true`.
+
+---
+
+## Time Complexity
+
+- **O(n + m)**
+
+Each pointer moves from right to left only once.
+
+---
+
+## Space Complexity
+
+- **O(1)**
+
+Only a few variables (`i`, `j`, `skipS`, `skipT`) are used regardless of input size.
+
+---
+
+## Key Learning
+
+- Traversing from **right to left** is an effective technique when characters affect previous elements.
+- Skip counters simulate backspaces without constructing new strings.
+- Using two pointers removes the need for auxiliary data structures like stacks.
+- Always think about processing the input in reverse when operations modify previous elements.
+- This is a classic example of optimizing **space complexity** from **O(n)** to **O(1)**.
+
+---
+
+## Comparison
+
+| Approach | Time | Space |
+|----------|------|-------|
+| Stack | O(n + m) | O(n + m) |
+| Two Pointers + Skip Count | O(n + m) | O(1) |
+
+---
+
+## Interview Tip
+
+If the interviewer asks for an optimized solution, avoid building the processed strings.
+
+Instead, explain:
+
+- Traverse both strings from **right to left**.
+- Use **skip counters** to ignore deleted characters.
+- Compare only the valid characters.
+- This satisfies the follow-up requirement of **O(n) time** and **O(1) extra space**.
