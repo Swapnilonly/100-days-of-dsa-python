@@ -480,3 +480,73 @@ answer[previous_index] = current_index - previous_index
 - Largest Rectangle in Histogram
 - Trapping Rain Water (Stack)
 - Asteroid Collision
+
+
+
+
+# 150. Evaluate Reverse Polish Notation
+
+## Problem Statement
+
+Evaluate the value of an arithmetic expression in **Reverse Polish Notation (RPN)**.
+
+Valid operators:
+
+- `+`
+- `-`
+- `*`
+- `/`
+
+Each operand may be an integer or another expression.
+
+> Division between two integers should truncate toward zero.
+
+---
+
+## Approach
+
+We use a **stack** to evaluate the expression.
+
+### Algorithm
+
+1. Traverse each token.
+2. If the token is a number, push it onto the stack.
+3. If the token is an operator:
+   - Pop the top two elements.
+   - The **first pop** is the **right operand**.
+   - The **second pop** is the **left operand**.
+   - Perform the operation.
+   - Push the result back onto the stack.
+4. After processing all tokens, the stack contains one element, which is the answer.
+
+
+## Complexity Analysis
+
+| Complexity | Value |
+|------------|-------|
+| Time | **O(n)** |
+| Space | **O(n)** |
+
+---
+
+## Key Takeaways
+
+- Use a **stack** to evaluate Reverse Polish Notation.
+- Push every number onto the stack.
+- For an operator:
+  - First pop → Right operand
+  - Second pop → Left operand
+- Perform the operation and push the result back.
+- Use `int(a / b)` to truncate division toward zero.
+- Every token is processed exactly once, giving **O(n)** time complexity.
+
+---
+
+## Related Problems
+
+- 20. Valid Parentheses
+- 155. Min Stack
+- 739. Daily Temperatures
+- 394. Decode String
+- 224. Basic Calculator
+- 227. Basic Calculator II
