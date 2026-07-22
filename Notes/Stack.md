@@ -343,3 +343,140 @@ Instead, explain:
 - Use **skip counters** to ignore deleted characters.
 - Compare only the valid characters.
 - This satisfies the follow-up requirement of **O(n) time** and **O(1) extra space**.
+
+
+# Daily Temperatures
+
+**Problem Link:** https://leetcode.com/problems/daily-temperatures/
+
+## Problem Statement
+
+Given an array `temperatures`, return an array `answer` such that:
+
+- `answer[i]` is the number of days to wait after the `i-th` day to get a warmer temperature.
+- If there is no future warmer day, return `0`.
+
+---
+
+## Example
+
+**Input**
+
+```text
+temperatures = [73,74,75,71,69,72,76,73]
+```
+
+**Output**
+
+```text
+[1,1,4,2,1,1,0,0]
+```
+
+---
+
+# Brute Force Approach
+
+## Intuition
+
+For every temperature, check all temperatures to its right until a warmer temperature is found.
+
+If found:
+
+- Return the distance.
+
+Otherwise:
+
+- Return 0.
+
+---
+
+## Algorithm
+
+1. Iterate through every temperature.
+2. Check all elements on the right.
+3. If a warmer temperature is found:
+   - Store `j - i`.
+4. Otherwise store `0`.
+
+---
+
+## Complexity
+
+- Time Complexity: **O(n²)**
+- Space Complexity: **O(1)**
+
+---
+
+# Optimal Approach (Monotonic Stack)
+
+## Intuition
+
+Instead of searching the right side repeatedly, keep the indices of temperatures that are still waiting for a warmer day.
+
+Whenever the current temperature becomes greater than the temperature at the top of the stack, we have found the next warmer day for that index.
+
+---
+
+## Why Store Indices?
+
+We need the number of days.
+
+Formula:
+
+```text
+current_index - previous_index
+```
+
+If we only store temperatures, we cannot calculate the distance.
+
+---
+
+## Monotonic Decreasing Stack
+
+The stack stores indices whose temperatures are in decreasing order.
+
+
+## Algorithm
+
+1. Create an answer array filled with `0`.
+2. Create an empty stack.
+3. Traverse the array from left to right.
+4. While:
+   - stack is not empty
+   - current temperature > temperature at stack top
+5. Pop the previous index.
+6. Store:
+
+```text
+answer[previous_index] = current_index - previous_index
+```
+
+7. Push the current index.
+8. Return the answer array.
+
+
+## Complexity
+
+- Time Complexity: **O(n)**
+- Space Complexity: **O(n)**
+
+---
+
+# Key Takeaways
+
+- Store **indices**, not temperatures.
+- The stack keeps temperatures in **decreasing order**.
+- Every index is pushed **once** and popped **once**.
+- Each element is processed at most two times.
+- This is a classic **Next Greater Element** pattern.
+
+---
+
+# Similar Problems
+
+- Next Greater Element I
+- Next Greater Element II
+- Stock Span
+- Largest Rectangle in Histogram
+- Trapping Rain Water (Stack)
+- Asteroid Collision
