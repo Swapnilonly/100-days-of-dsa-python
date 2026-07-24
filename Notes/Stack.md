@@ -550,3 +550,197 @@ We use a **stack** to evaluate the expression.
 - 394. Decode String
 - 224. Basic Calculator
 - 227. Basic Calculator II
+
+
+
+
+
+# 84. Largest Rectangle in Histogram
+
+## Problem Statement
+
+Given an array `heights` representing the height of histogram bars, where each bar has a width of **1**, return the **area of the largest rectangle** that can be formed in the histogram.
+
+---
+
+## Approach
+
+We use a **Monotonic Increasing Stack** to efficiently find the largest rectangle.
+
+### Key Idea
+
+Treat every bar as the **height of the rectangle**.
+
+For each bar, determine:
+
+- **Nearest Smaller Element to the Left (NSL)**
+- **Nearest Smaller Element to the Right (NSR)**
+
+The rectangle can expand between these two smaller elements.
+
+```text
+Width = NSR - NSL - 1
+Area = Height × Width
+```
+
+Instead of explicitly computing NSL and NSR arrays, we calculate the area **while popping elements from the stack**.
+
+To ensure every bar is processed, append a **sentinel value (`0`)** at the end of the array.
+
+---
+
+### Algorithm
+
+1. Append `0` to the end of `heights`.
+2. Initialize an empty stack to store indices.
+3. Traverse the histogram from left to right.
+4. While the current height is smaller than the height at the stack top:
+   - Pop the top index.
+   - Current index becomes the **Nearest Smaller to Right (NSR)**.
+   - New stack top becomes the **Nearest Smaller to Left (NSL)**.
+   - Calculate the rectangle width.
+   - Compute the area and update the maximum area.
+5. Push the current index onto the stack.
+6. Return the maximum area.
+
+## Complexity Analysis
+
+| Complexity | Value |
+|------------|-------|
+| Time | **O(n)** |
+| Space | **O(n)** |
+
+---
+
+## Key Takeaways
+
+- Use a **Monotonic Increasing Stack**.
+- Store **indices**, not heights.
+- Treat every bar as the rectangle's height.
+- Expand only through **consecutive bars** with height **>= current height**.
+- Area is calculated **when an element is popped**, not when it is pushed.
+- Current index acts as the **Nearest Smaller to Right (NSR)**.
+- Stack top after popping acts as the **Nearest Smaller to Left (NSL)**.
+- Append a **sentinel value (`0`)** to automatically process all remaining bars.
+- Every index is pushed and popped at most once, resulting in **O(n)** time complexity.
+
+---
+
+## Related Problems
+
+- 85. Maximal Rectangle
+- 42. Trapping Rain Water
+- 907. Sum of Subarray Minimums
+- 496. Next Greater Element I
+- 503. Next Greater Element II
+- 739. Daily Temperatures
+- 901. Online Stock Span
+
+
+
+# 496. Next Greater Element I
+
+## Problem Statement
+
+You are given two **0-indexed** arrays `nums1` and `nums2`, where `nums1` is a subset of `nums2`.
+
+For each element in `nums1`, find its **next greater element** in `nums2`. The next greater element is the first element to the right that is greater than the current element. If no such element exists, return `-1`.
+
+---
+
+## Approach
+
+- Use a **monotonic decreasing stack** to compute the next greater element for every element in `nums2`.
+- Traverse `nums2` from **right to left**.
+- Remove all elements from the stack that are **smaller than or equal to** the current element.
+- If the stack is not empty, its top is the next greater element.
+- Store the result in a **HashMap (Dictionary)**.
+- Traverse `nums1` and fetch answers directly from the HashMap.
+
+---
+
+## Algorithm
+
+1. Initialize an empty stack and a HashMap.
+2. Traverse `nums2` from right to left.
+3. While the stack is not empty and `stack.top <= current`, pop the stack.
+4. If the stack is empty, store `-1` as the next greater element.
+5. Otherwise, store `stack.top` as the next greater element.
+6. Push the current element onto the stack.
+7. Traverse `nums1` and build the answer using the HashMap.
+
+## Time Complexity
+
+- Processing `nums2`: **O(n)**
+- Processing `nums1`: **O(m)**
+
+**Overall:** **O(n + m)**
+
+> `n = len(nums2)`
+>
+> `m = len(nums1)`
+
+---
+
+## Space Complexity
+
+- Stack: **O(n)**
+- HashMap: **O(n)**
+- Output List: **O(m)**
+
+**Overall:** **O(n + m)**
+
+> **Auxiliary Space (excluding output):** **O(n)**
+
+---
+
+## Key Takeaways
+
+- Traverse **right to left**.
+- Maintain a **monotonic decreasing stack**.
+- Pop all elements **less than or equal to** the current element.
+- The stack top is the **next greater element**.
+- Push each element **exactly once**.
+- Each element is **pushed once** and **popped at most once**, giving an amortized **O(n)** solution.
+
+---
+
+## Common Mistakes
+
+- Traversing from left to right.
+- Using the wrong pop condition (`>` instead of `<=`).
+- Forgetting to push the current element after processing.
+- Pushing the current element multiple times.
+- Calculating the answer inside the `while` loop.
+- Assuming the nested `while` loop makes the algorithm **O(n²)**.
+
+---
+
+## Pattern
+
+```text
+Traverse from Right to Left
+
+while stack is not empty AND stack.top <= current
+    pop()
+
+if stack is empty
+    answer = -1
+else
+    answer = stack.top
+
+push(current)
+```
+
+---
+
+## Related Problems
+
+- 503. Next Greater Element II
+- 739. Daily Temperatures
+- 901. Online Stock Span
+- 84. Largest Rectangle in Histogram
+- 42. Trapping Rain Water (Stack Approach)
+
+
+
