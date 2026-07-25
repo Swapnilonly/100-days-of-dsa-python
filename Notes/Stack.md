@@ -744,3 +744,121 @@ push(current)
 
 
 
+# 503. Next Greater Element II
+
+## Problem Statement
+
+Given a **circular integer array** `nums`, return an array `answer` where `answer[i]` is the **first greater element** to the right of `nums[i]`. If no greater element exists, return `-1`.
+
+A circular array means that after the last element, traversal continues from the first element.
+
+---
+
+## Example
+
+**Input**
+
+```text
+nums = [1,2,1]
+```
+
+**Output**
+
+```text
+[2,-1,2]
+```
+
+**Explanation**
+
+- Next greater of `1` is `2`.
+- `2` has no greater element.
+- The last `1` wraps around and finds `2`.
+
+---
+
+## Intuition
+
+A normal **Next Greater Element** problem can be solved using a **Monotonic Decreasing Stack**.
+
+Since the array is **circular**, every element should also be able to search beyond the last index.
+
+Instead of physically duplicating the array, we simulate a second traversal by iterating **2 × n** times and using modulo (`%`) to wrap around.
+
+---
+
+## Approach
+
+- Maintain a **Monotonic Decreasing Stack**.
+- Traverse the array from **right to left**.
+- Iterate from `2 * n - 1` down to `0`.
+- Compute the actual index using:
+
+```python
+i = j % n
+```
+
+- Remove all elements from the stack that are **smaller than or equal to** the current element.
+- If the stack is not empty, its top is the next greater element.
+- Push the current element onto the stack.
+
+---
+
+## Algorithm
+
+1. Initialize an empty stack.
+2. Create a result array filled with `-1`.
+3. Traverse from `2 * n - 1` to `0`.
+4. Convert the virtual index into the actual index using `% n`.
+5. Remove all elements from the stack that are less than or equal to the current element.
+6. If the stack is not empty, store the top element as the next greater element.
+7. Push the current element onto the stack.
+8. Return the result array.
+
+---
+
+## Why `2 × n` Traversal?
+
+A circular array allows traversal to continue from the beginning after reaching the last element.
+
+Instead of creating a duplicate array, we simulate circular traversal using:
+
+```python
+i = j % n
+```
+
+This ensures every element gets one complete circular search while keeping the solution efficient.
+
+---
+
+## Time Complexity
+
+- **Time:** `O(n)`
+- **Space:** `O(n)`
+
+---
+
+## Key Takeaways
+
+- Use a **Monotonic Decreasing Stack**.
+- Simulate the circular array using `% n`.
+- Traverse **2 × n** times.
+- Each element is pushed and popped at most once.
+- Store answers using **indices**, not values.
+
+---
+
+## Pattern
+
+- Monotonic Stack
+- Circular Array
+- Next Greater Element
+
+---
+
+## Related Problems
+
+- **496.** Next Greater Element I
+- **739.** Daily Temperatures
+- **84.** Largest Rectangle in Histogram
+- **901.** Online Stock Span
+- **42.** Trapping Rain Water
