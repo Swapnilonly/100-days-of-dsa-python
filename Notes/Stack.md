@@ -862,3 +862,129 @@ This ensures every element gets one complete circular search while keeping the s
 - **84.** Largest Rectangle in Histogram
 - **901.** Online Stock Span
 - **42.** Trapping Rain Water
+
+
+
+# 225. Implement Stack using Queues
+
+## Problem Statement
+
+Implement a **Last In First Out (LIFO)** stack using only the standard operations of a queue.
+
+Implement the following functions:
+
+- `push(x)` – Push element `x` onto the stack.
+- `pop()` – Removes the element on the top of the stack and returns it.
+- `top()` – Returns the top element.
+- `empty()` – Returns `true` if the stack is empty, otherwise `false`.
+
+**Queue operations allowed:**
+
+- `push to back`
+- `peek/pop from front`
+- `size`
+- `is empty`
+
+---
+
+## Example
+
+**Input**
+
+```text
+["MyStack","push","push","top","pop","empty"]
+[[],[1],[2],[],[],[]]
+```
+
+**Output**
+
+```text
+[null,null,null,2,2,false]
+```
+
+---
+
+## Intuition
+
+A queue follows **FIFO (First In First Out)**, while a stack follows **LIFO (Last In First Out)**.
+
+To make a queue behave like a stack, every newly inserted element is moved to the **front** of the queue by rotating the existing elements.
+
+As a result:
+
+- The newest element is always at the front.
+- `pop()` simply removes the front element.
+- `top()` simply returns the front element.
+
+---
+
+## Approach (Single Queue)
+
+1. Insert the new element at the rear of the queue.
+2. Rotate the queue `size - 1` times.
+3. After rotation, the newly inserted element becomes the front.
+4. `pop()` removes the front element.
+5. `top()` returns the front element.
+6. `empty()` checks whether the queue is empty.
+
+---
+
+## Algorithm
+
+For **push(x)**
+
+- Insert `x` into the queue.
+- Rotate the queue `current_size - 1` times.
+
+For **pop()**
+
+- Remove and return the front element.
+
+For **top()**
+
+- Return the front element.
+
+For **empty()**
+
+- Return whether the queue is empty.
+
+---
+
+## Complexity Analysis
+
+| Operation | Time | Space |
+|-----------|------|-------|
+| Push | **O(n)** | O(1) |
+| Pop | **O(1)** | O(1) |
+| Top | **O(1)** | O(1) |
+| Empty | **O(1)** | O(1) |
+
+Overall Auxiliary Space: **O(1)**
+
+---
+
+## Key Takeaways
+
+- Queue is **FIFO**, Stack is **LIFO**.
+- Rotate the queue after every push so that the newest element reaches the front.
+- After rotation:
+  - Front = Stack Top
+  - `popleft()` = Stack Pop
+- Push becomes expensive (**O(n)**), while Pop and Top become **O(1)**.
+
+---
+
+## Pattern
+
+- Queue
+- Stack Simulation
+- Data Structure Design
+
+---
+
+## Related Problems
+
+- 232. Implement Queue using Stacks
+- 155. Min Stack
+- 622. Design Circular Queue
+- 641. Design Circular Deque
