@@ -988,3 +988,85 @@ Overall Auxiliary Space: **O(1)**
 - 155. Min Stack
 - 622. Design Circular Queue
 - 641. Design Circular Deque
+
+
+
+
+# 901. Online Stock Span
+
+## Problem Statement
+
+Design a data structure that collects daily stock prices and returns the span of the current day's stock price.
+
+The span of the stock’s price is defined as the maximum number of consecutive days (starting from today and going backward) for which the stock price was less than or equal to today's price.
+
+---
+
+## Intuition
+
+A previous stock price greater than the current price acts as a boundary. All consecutive prices less than or equal to the current price contribute to its span.
+
+To avoid scanning previous prices repeatedly, maintain a Monotonic Decreasing Stack.
+
+---
+
+## Approach
+
+- Use a Monotonic Decreasing Stack.
+- Store `(price, span)` instead of only prices.
+- Initialize `span = 1` for every new price.
+- While the top of the stack has a price less than or equal to the current price:
+  - Add the stored span to the current span.
+  - Pop the top element.
+- Push the current `(price, span)` onto the stack.
+- Return the calculated span.
+
+---
+
+## Algorithm
+
+1. Initialize an empty stack.
+2. For every incoming stock price:
+   - Set `span = 1`.
+   - While the stack is not empty and the top price is less than or equal to the current price:
+     - Add the top element's span to `span`.
+     - Pop the top element.
+   - Push `(currentPrice, span)` onto the stack.
+   - Return `span`.
+
+---
+
+## Complexity Analysis
+
+- **Time Complexity:** `O(1)` Amortized
+- **Worst Case (Single Call):** `O(n)`
+- **Space Complexity:** `O(n)`
+
+---
+
+## Key Takeaways
+
+- Monotonic Decreasing Stack is the optimal choice.
+- Store `(price, span)` instead of only prices.
+- Every stock price is pushed exactly once.
+- Every stock price is popped at most once.
+- The total number of push and pop operations is linear, giving an amortized `O(1)` solution.
+
+---
+
+## Pattern
+
+- Monotonic Stack
+- Stack
+- Amortized Analysis
+
+---
+
+## Related Problems
+
+- 496. Next Greater Element I
+- 503. Next Greater Element II
+- 739. Daily Temperatures
+- 84. Largest Rectangle in Histogram
+- 1475. Final Prices With a Special Discount in a Shop
+- 402. Remove K Digits
