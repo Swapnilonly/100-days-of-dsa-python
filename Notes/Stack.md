@@ -1166,3 +1166,150 @@ stack[-1] > 0 and asteroid < 0
 - 503. Next Greater Element II
 - 739. Daily Temperatures
 - 901. Online Stock Span
+
+
+
+
+# 402. Remove K Digits
+
+## Problem Statement
+
+Given a non-negative integer `num` represented as a string and an integer `k`, remove `k` digits from the number so that the new number is the smallest possible.
+
+Return the resulting number as a string.
+
+**Note:**
+- The input number does not contain leading zeros except for the number `"0"`.
+- The output should not contain leading zeros unless the answer is `"0"`.
+
+---
+
+## Approach (Monotonic Increasing Stack)
+
+Use a **Monotonic Increasing Stack** to construct the smallest possible number.
+
+### Key Idea
+
+Whenever the current digit is **smaller** than the top of the stack, removing the larger digit from the stack results in a smaller overall number.
+
+Continue removing digits while:
+
+- The stack is not empty.
+- `k > 0`
+- Top of the stack is greater than the current digit.
+
+If removals are still left after processing all digits, remove digits from the **end** of the stack since they are the largest remaining digits.
+
+Finally:
+
+- Convert the stack into a string.
+- Remove leading zeros.
+- Return `"0"` if the result becomes empty.
+
+---
+
+## Why Monotonic Increasing Stack?
+
+The stack is maintained in **increasing order**.
+
+Example:
+
+```text
+Input: 1432219
+
+Stack:
+
+1
+1 4
+1 3      (4 removed)
+1 2      (3 removed)
+1 2 2
+1 2 1    (2 removed)
+1 2 1 9
+```
+
+The resulting number is the smallest possible after removing `k` digits.
+
+---
+
+## Algorithm
+
+1. Initialize an empty stack.
+2. Traverse each digit in the string.
+3. While:
+   - Stack is not empty.
+   - `k > 0`
+   - Top of the stack is greater than the current digit.
+   - Pop the stack and decrement `k`.
+4. Push the current digit into the stack.
+5. If `k > 0`, remove the last `k` digits from the stack.
+6. Convert the stack to a string.
+7. Remove leading zeros.
+8. If the string is empty, return `"0"`.
+9. Otherwise, return the resulting string.
+
+---
+
+## Dry Run
+
+**Input**
+
+```text
+num = "1432219"
+k = 3
+```
+
+| Current Digit | Stack | Action |
+|---------------|-------|--------|
+| 1 | 1 | Push |
+| 4 | 1 4 | Push |
+| 3 | 1 3 | Pop 4, Push 3 |
+| 2 | 1 2 | Pop 3, Push 2 |
+| 2 | 1 2 2 | Push |
+| 1 | 1 2 1 | Pop 2, Push 1 |
+| 9 | 1 2 1 9 | Push |
+
+Result:
+
+```text
+1219
+```
+
+---
+
+## Complexity Analysis
+
+- **Time Complexity:** `O(n)`
+- **Space Complexity:** `O(n)`
+
+---
+
+## Key Takeaways
+
+- Greedily remove larger previous digits whenever a smaller digit appears.
+- Maintain a **Monotonic Increasing Stack**.
+- If removals remain after traversal, remove digits from the end.
+- Leading zeros should be removed before returning the answer.
+- Characters `'0'` to `'9'` can be compared directly without converting them to integers.
+
+---
+
+## Common Mistakes
+
+- Using `>=` instead of `>` in the comparison.
+- Forgetting to remove remaining digits when `k > 0`.
+- Forgetting to remove leading zeros.
+- Converting characters to integers unnecessarily.
+- Returning an empty string instead of `"0"`.
+
+---
+
+## Related Problems
+
+- 496. Next Greater Element I
+- 503. Next Greater Element II
+- 739. Daily Temperatures
+- 901. Online Stock Span
+- 84. Largest Rectangle in Histogram
+- 735. Asteroid Collision
+```
