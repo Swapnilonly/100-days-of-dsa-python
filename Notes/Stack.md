@@ -1070,3 +1070,99 @@ To avoid scanning previous prices repeatedly, maintain a Monotonic Decreasing St
 - 84. Largest Rectangle in Histogram
 - 1475. Final Prices With a Special Discount in a Shop
 - 402. Remove K Digits
+
+
+
+# 735. Asteroid Collision
+
+## Problem Statement
+
+We are given an array of integers representing asteroids in a row.
+
+- Positive value (`> 0`) → Asteroid moves to the **right**.
+- Negative value (`< 0`) → Asteroid moves to the **left**.
+
+When two asteroids moving in opposite directions collide:
+
+- The smaller asteroid explodes.
+- If both have the same size, both explode.
+- Asteroids moving in the same direction never collide.
+
+Return the state of the asteroids after all collisions.
+
+---
+
+## Approach (Stack)
+
+Use a stack to keep track of the asteroids that have survived so far.
+
+For each asteroid:
+
+1. Assume the current asteroid is alive.
+2. A collision is possible **only when**:
+   - Top of the stack is moving right (`> 0`)
+   - Current asteroid is moving left (`< 0`)
+3. Compare the sizes of both asteroids:
+   - If the current asteroid is larger, remove the top asteroid and continue checking.
+   - If the top asteroid is larger, the current asteroid is destroyed.
+   - If both are equal, both are destroyed.
+4. If the current asteroid survives all possible collisions, push it onto the stack.
+
+---
+
+## Collision Conditions
+
+| Stack Top | Current | Collision |
+|-----------|---------|-----------|
+| + | + | ❌ No |
+| - | - | ❌ No |
+| - | + | ❌ No |
+| + | - | ✅ Yes |
+
+Only this condition causes a collision:
+
+```python
+stack[-1] > 0 and asteroid < 0
+```
+
+---
+
+## Algorithm
+
+1. Initialize an empty stack.
+2. Iterate through each asteroid.
+3. Assume the asteroid is alive.
+4. While collision is possible:
+   - If current asteroid is larger, pop the stack.
+   - If stack top is larger, current asteroid is destroyed.
+   - If both are equal, destroy both.
+5. If the current asteroid survives, push it onto the stack.
+6. Return the stack.
+
+---
+
+## Complexity Analysis
+
+- **Time Complexity:** `O(n)`
+- **Space Complexity:** `O(n)`
+
+---
+
+## Key Takeaways
+
+- Stack is used to maintain the surviving asteroids.
+- Only one collision direction is possible:
+  - Right-moving asteroid followed by a left-moving asteroid.
+- Each asteroid is pushed and popped at most once, giving an overall `O(n)` time complexity.
+- Repeated collisions are handled naturally using a `while` loop.
+
+---
+
+## Related Problems
+
+- 20. Valid Parentheses
+- 155. Min Stack
+- 496. Next Greater Element I
+- 503. Next Greater Element II
+- 739. Daily Temperatures
+- 901. Online Stock Span
