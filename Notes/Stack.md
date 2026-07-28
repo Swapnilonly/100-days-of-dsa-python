@@ -1312,4 +1312,114 @@ Result:
 - 901. Online Stock Span
 - 84. Largest Rectangle in Histogram
 - 735. Asteroid Collision
+
+
+# 394. Decode String
+
+**Difficulty:** Medium  
+**Pattern:** Stack  
+**LeetCode:** https://leetcode.com/problems/decode-string/
+
+---
+
+# Problem Statement
+
+Given an encoded string `s`, decode and return its original string.
+
+Encoding Rule:
+
 ```
+k[encoded_string]
+```
+
+- `k` is the number of times the substring should be repeated.
+- Nested encodings are allowed.
+
+### Example
+
+```
+Input:
+s = "3[a2[c]]"
+
+Output:
+"accaccacc"
+```
+
+---
+
+# Intuition
+
+The encoded string can contain multiple levels of nested brackets, so we need a way to remember the previous state whenever we enter a new bracket.
+
+Whenever we encounter `'['`, we save:
+- The repeat count.
+- The string built so far.
+
+When we encounter `']'`, we:
+- Restore the previous string.
+- Repeat the current substring using the stored repeat count.
+- Append the repeated substring to the previous string.
+
+Since nested brackets follow a **Last In, First Out (LIFO)** order, a **stack** is the ideal data structure.
+
+---
+
+# Approach
+
+1. Initialize:
+   - A stack for repeat counts.
+   - A stack for previously built strings.
+   - Variables to store the current number and current string.
+
+2. Traverse the string character by character.
+
+3. If the character is a digit:
+   - Build the complete repeat count (handles multi-digit numbers).
+
+4. If the character is `'['`:
+   - Store the current repeat count.
+   - Store the current string.
+   - Reset both values to process the new substring.
+
+5. If the character is `']'`:
+   - Retrieve the last stored repeat count.
+   - Retrieve the previous string.
+   - Repeat the current substring and append it to the previous string.
+
+6. If the character is a letter:
+   - Append it to the current string.
+
+7. Continue until the entire string is processed.
+
+8. Return the final decoded string.
+
+---
+
+# Complexity Analysis
+
+### Time Complexity
+
+```
+O(n)
+```
+
+Each character is processed once.
+
+### Space Complexity
+
+```
+O(n)
+```
+
+Additional space is used for the stacks and the decoded string.
+
+---
+
+# Key Points
+
+- Use **two stacks**:
+  - One for repeat counts.
+  - One for previously built strings.
+- Supports nested encodings naturally.
+- Handles multi-digit repeat counts (e.g., `12[a]`).
+- The stack helps restore the previous state after processing each nested substring.v
