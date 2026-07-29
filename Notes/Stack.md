@@ -1422,4 +1422,158 @@ Additional space is used for the stacks and the decoded string.
   - One for previously built strings.
 - Supports nested encodings naturally.
 - Handles multi-digit repeat counts (e.g., `12[a]`).
-- The stack helps restore the previous state after processing each nested substring.v
+- The stack helps restore the previous state after processing each nested substring.
+
+
+
+# 227. Basic Calculator II
+
+## Problem
+
+Given a string `s` representing a valid mathematical expression containing non-negative integers, operators (`+`, `-`, `*`, `/`), and spaces, evaluate the expression and return its result.
+
+### Constraints
+
+- `1 <= s.length <= 3 * 10^5`
+- Expression contains only:
+  - Digits (`0-9`)
+  - Operators (`+`, `-`, `*`, `/`)
+  - Spaces
+- Integer division truncates toward zero.
+- Do not use `eval()` or any built-in expression evaluator.
+
+---
+
+## Intuition
+
+The expression must follow **operator precedence**:
+
+- `*` and `/` have higher precedence than `+` and `-`.
+
+Instead of evaluating the entire expression at once:
+
+- Store numbers for `+` and `-` in a stack.
+- Immediately compute `*` and `/` with the previous number in the stack.
+- Finally, sum all values in the stack.
+
+---
+
+## Approach
+
+1. Traverse the string character by character.
+2. Build the current number digit by digit.
+3. Whenever an operator (or the end of the string) is reached:
+   - Process the **previous operator**.
+   - `+` → Push current number.
+   - `-` → Push negative current number.
+   - `*` → Pop the previous number, multiply, and push the result.
+   - `/` → Pop the previous number, divide (truncate toward zero), and push the result.
+4. Update the current operator.
+5. Reset the current number.
+6. Return the sum of the stack.
+
+---
+
+## Algorithm
+
+1. Initialize:
+   - `stack`
+   - `num = 0`
+   - `op = '+'`
+2. Iterate through the expression (including one extra iteration using a sentinel operator).
+3. Build multi-digit numbers:
+   ```
+   num = num * 10 + int(ch)
+   ```
+4. When an operator or the end of the string is encountered:
+   - Apply the previous operator.
+   - Update the current operator.
+   - Reset `num`.
+5. Sum all elements in the stack.
+
+---
+
+## Dry Run
+
+### Input
+
+```
+3+5/2
+```
+
+| Character | Action | Stack |
+|-----------|--------|-------|
+| `3` | Build number | `[]` |
+| `+` | Push `3` | `[3]` |
+| `5` | Build number | `[3]` |
+| `/` | Push `5` | `[3, 5]` |
+| `2` | Build number | `[3, 5]` |
+| End | `5 / 2 = 2`, push result | `[3, 2]` |
+
+Final Answer:
+
+```
+3 + 2 = 5
+```
+
+---
+
+## Why Stack?
+
+The stack naturally handles operator precedence.
+
+- `+` and `-` are stored for later.
+- `*` and `/` are evaluated immediately using the top element of the stack.
+
+This eliminates the need for converting the expression into postfix or using multiple passes.
+
+---
+
+## Sentinel Trick
+
+Instead of writing extra code after the loop to process the last number, iterate one extra time and treat the end of the string as a `'+'`.
+
+Example:
+
+```
+3+2*2
+```
+
+Internally becomes:
+
+```
+3+2*2+
+```
+
+The extra `'+'` forces the final number to be processed inside the loop.
+
+---
+
+## Complexity Analysis
+
+- **Time Complexity:** `O(n)`
+- **Space Complexity:** `O(n)`
+
+---
+
+## Key Takeaways
+
+- Use the **previous operator** while processing the current number.
+- Build multi-digit numbers using:
+  ```
+  num = num * 10 + int(ch)
+  ```
+- Immediately resolve `*` and `/`.
+- Store `+` and `-` values in the stack.
+- Use `int(a / b)` for division to truncate toward zero.
+- A sentinel operator simplifies handling the last number.
+
+---
+
+## Related Problems
+
+- 224. Basic Calculator
+- 772. Basic Calculator III
+- 150. Evaluate Reverse Polish Notation
+- 20. Valid Parentheses
+- 394. Decode String
