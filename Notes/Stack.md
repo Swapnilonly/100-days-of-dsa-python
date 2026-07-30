@@ -1577,3 +1577,81 @@ The extra `'+'` forces the final number to be processed inside the loop.
 - 150. Evaluate Reverse Polish Notation
 - 20. Valid Parentheses
 - 394. Decode String
+
+
+
+# 316. Remove Duplicate Letters
+
+## Problem
+
+Given a string `s`, remove duplicate letters so that every letter appears **once and only once**. Among all possible valid results, return the **smallest lexicographical** string.
+
+---
+
+# Intuition
+
+The goal is not only to remove duplicates but also to make the resulting string **lexicographically smallest**.
+
+While traversing the string:
+
+* Keep each character **only once**.
+* If the current character is smaller than the character at the top of the stack, try to place it earlier.
+* A character can be removed from the stack **only if it appears again later**. Otherwise, removing it would permanently lose that character.
+
+This naturally leads to using a **Monotonic Increasing Stack** with a greedy approach.
+
+---
+
+# Approach
+
+1. Store the **last occurrence** of every character.
+2. Maintain:
+
+   * A stack to build the answer.
+   * A visited array to ensure each character appears only once.
+3. Traverse the string:
+
+   * Skip the character if it is already present in the stack.
+   * While:
+
+     * the stack is not empty,
+     * the current character is smaller than the stack top,
+     * and the stack top appears again later,
+       remove the stack top.
+   * Push the current character into the stack and mark it as visited.
+4. Join the stack to obtain the final answer.
+
+---
+
+# Why This Works
+
+* Every character is added **only once**.
+* Larger characters are removed whenever they can safely appear later.
+* This guarantees the **smallest lexicographical subsequence** containing all distinct characters exactly once.
+
+---
+
+# Time Complexity
+
+* **Time:** `O(n)`
+* **Space:** `O(1)` *(excluding the output stack, since only 26 lowercase letters are tracked)*
+
+---
+
+# Key Learning
+
+* Greedy + Monotonic Stack
+* Last Occurrence Tracking
+* Visited Array
+* Lexicographical Ordering
+* Character Indexing using `ord()`
+* Stack-based String Construction
+
+---
+
+# Related Problems
+
+* LeetCode 1081 — Smallest Subsequence of Distinct Characters
+* LeetCode 402 — Remove K Digits
+* LeetCode 456 — 132 Pattern
+* LeetCode 1673 — Find the Most Competitive Subsequence
