@@ -80,3 +80,36 @@ Given a sorted array of distinct integers and a target value, return the index i
 - Binary Search
 - Sorted Array
 - Divide and Conquer
+
+
+
+# 69. Sqrt(x)
+
+## Problem
+Given a non-negative integer `x`, return the integer square root of `x`.
+
+The integer square root is the largest integer `y` such that:
+
+
+Do **not** use built-in square root or exponent functions.
+
+---
+
+## Approach - Binary Search
+
+The square root of a number lies between:
+
+- `1` and `x // 2` (for `x >= 2`)
+
+Use Binary Search to find the largest value whose square is less than or equal to `x`.
+
+### Steps
+
+1. Handle edge case (`x < 2`).
+2. Apply Binary Search on the range `[1, x // 2]`.
+3. Calculate `mid`.
+4. If `mid² == x`, return `mid`.
+5. If `mid² < x`, store `mid` as a possible answer and search right.
+6. Otherwise, search left.
+7. Return the last valid answer.
+
