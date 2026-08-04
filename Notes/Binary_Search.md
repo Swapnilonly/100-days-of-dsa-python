@@ -113,3 +113,135 @@ Use Binary Search to find the largest value whose square is less than or equal t
 6. Otherwise, search left.
 7. Return the last valid answer.
 
+
+# 33. Search in Rotated Sorted Array
+
+## Problem
+
+Given a rotated sorted array of **unique** integers `nums` and an integer `target`, return the index of `target` if it exists; otherwise, return `-1`.
+
+---
+
+## Intuition
+
+A rotated sorted array is not fully sorted, so a normal Binary Search cannot be applied directly.
+
+**Key Observation:**
+
+> At every step, **at least one half of the array is always sorted**.
+
+The idea is to:
+
+1. Identify the sorted half.
+2. Check whether the target lies inside the sorted half.
+3. If yes, search in that half.
+4. Otherwise, search in the other half.
+
+---
+
+## Algorithm
+
+1. Initialize two pointers:
+   - `left = 0`
+   - `right = len(nums) - 1`
+2. Find the middle index.
+3. If `nums[mid] == target`, return `mid`.
+4. Determine which half is sorted.
+5. Check if the target belongs to the sorted half.
+6. Move the search boundaries accordingly.
+7. Repeat until the search space becomes empty.
+
+---
+
+## Conditions
+
+### Case 1: Left Half is Sorted
+
+```python
+nums[left] <= nums[mid]
+```
+
+Target lies in left half:
+
+```python
+nums[left] <= target < nums[mid]
+```
+
+- Search Left
+
+Otherwise:
+
+- Search Right
+
+---
+
+### Case 2: Right Half is Sorted
+
+```python
+nums[left] > nums[mid]
+```
+
+Target lies in right half:
+
+```python
+nums[mid] < target <= nums[right]
+```
+
+- Search Right
+
+Otherwise:
+
+- Search Left
+
+---
+
+## Decision Tree
+
+```text
+                 nums[mid] == target
+                        │
+                 Yes → Return
+
+                        │
+                       No
+                        │
+         nums[left] <= nums[mid] ?
+               /                 \
+            Yes                   No
+             │                     │
+     Left Half Sorted      Right Half Sorted
+             │                     │
+Target in Left Half?      Target in Right Half?
+        /      \                /       \
+      Yes      No             Yes       No
+       │        │              │         │
+ Search Left Search Right Search Right Search Left
+```
+
+
+## Complexity Analysis
+
+| Complexity | Value |
+|------------|-------|
+| Time | **O(log n)** |
+| Space | **O(1)** |
+
+---
+
+## Key Takeaways
+
+- A rotated sorted array is not fully sorted.
+- At least one half is always sorted.
+- Identify the sorted half first.
+- Check whether the target belongs to that half.
+- Eliminate half of the search space in every iteration.
+- Binary Search still works in **O(log n)**.
+
+---
+
+## Related Problems
+
+- 81. Search in Rotated Sorted Array II
+- 153. Find Minimum in Rotated Sorted Array
+- 154. Find Minimum in Rotated Sorted Array II
+- 189. Rotate Array
