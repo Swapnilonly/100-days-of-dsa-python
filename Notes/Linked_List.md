@@ -11,7 +11,6 @@ In a **Singly Linked List**, each node points only to the next node.
 
 ## 📌 Structure
 
-```text
 head
  ↓
 [10 | next] → [20 | next] → [30 | None]
@@ -67,3 +66,36 @@ ll.insert_at_end(30)
 ll.insert_at_beginning(5)
 
 ll.display()
+
+
+# 🔗 141. Linked List Cycle
+
+**LeetCode:** [Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/)
+
+## 📌 Problem
+
+Given the head of a linked list, determine if the linked list contains a cycle.
+
+A cycle exists when a node's `next` pointer points to a previous node in the linked list.
+
+---
+
+## 💡 Approach
+
+### Floyd's Cycle Detection Algorithm
+
+Use two pointers:
+
+- `slow` → moves one step at a time
+- `fast` → moves two steps at a time
+
+### Steps
+
+1. Initialize `slow` and `fast` at `head`.
+2. If `head` is `None`, return `False`.
+3. Move `slow` one step.
+4. Move `fast` two steps.
+5. If `slow == fast`, a cycle exists.
+6. If `fast` or `fast.next` becomes `None`, no cycle exists.
+
+---
