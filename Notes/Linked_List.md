@@ -99,3 +99,164 @@ Use two pointers:
 6. If `fast` or `fast.next` becomes `None`, no cycle exists.
 
 ---
+
+# 19. Remove Nth Node From End of List
+
+**LeetCode:** [Remove Nth Node From End of List](https://leetcode.com/problems/remove-nth-node-from-end-of-list/)
+
+**Difficulty:** Medium
+
+**Topic:** Linked List
+
+---
+
+## Problem
+
+Given the head of a linked list, remove the `n`th node from the end of the list and return its head.
+
+### Example
+
+```text
+Input:
+1 → 2 → 3 → 4 → 5
+n = 2
+
+Output:
+1 → 2 → 3 → 5
+```
+
+---
+
+## Approach: Two Pass
+
+The solution uses two traversals of the linked list.
+
+### Step 1: Count the Nodes
+
+Traverse the complete linked list and calculate its length.
+
+```text
+1 → 2 → 3 → 4 → 5
+
+count = 5
+```
+
+### Step 2: Find the Previous Node
+
+The position of the node to remove from the beginning is:
+
+```text
+count - n
+```
+
+For:
+
+```text
+count = 5
+n = 2
+
+target = 5 - 2
+       = 3
+```
+
+So we reach the node just before the node that needs to be removed.
+
+### Step 3: Remove the Node
+
+Once we reach the previous node:
+
+```text
+head2.next = head2.next.next
+```
+
+This skips the target node.
+
+```text
+Before:
+
+3 → 4 → 5
+
+After:
+
+3 → 5
+```
+
+---
+
+## Edge Case
+
+If:
+
+```text
+count == n
+```
+
+the node to remove is the **head node**.
+
+Example:
+
+```text
+1 → 2 → 3
+n = 3
+```
+
+Return:
+
+```text
+2 → 3
+```
+
+---
+
+## Complexity
+
+### Time Complexity
+
+```text
+O(N)
+```
+
+The linked list is traversed twice.
+
+### Space Complexity
+
+```text
+O(1)
+```
+
+Only a few pointer variables are used.
+
+---
+
+## Key Takeaway
+
+For the two-pass approach:
+
+```text
+1. Count the total nodes
+2. Handle head-removal case
+3. Find the node before the target
+4. Skip the target node
+```
+
+The important linked-list operation is:
+
+```python
+current.next = current.next.next
+```
+
+which removes a node by bypassing it.
+
+---
+
+## Pattern
+
+**Linked List → Two Pass Traversal → Pointer Manipulation**
+
+---
+
+### Word of the Day
+
+**Bypass** — to skip something or go around it.
+
+In this problem, `current.next = current.next.next` **bypasses** the node that needs to be removed.
