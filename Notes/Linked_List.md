@@ -260,3 +260,139 @@ which removes a node by bypassing it.
 **Bypass** — to skip something or go around it.
 
 In this problem, `current.next = current.next.next` **bypasses** the node that needs to be removed.
+
+
+
+# 143. Reorder List
+
+**LeetCode:** [Reorder List](https://leetcode.com/problems/reorder-list/)
+
+**Difficulty:** Medium
+
+**Topic:** Linked List
+
+---
+
+## Problem
+
+Given the head of a singly linked list, reorder the list in the following pattern:
+
+    L0 → Ln → L1 → Ln-1 → L2 → Ln-2 → ...
+
+The list must be modified **in-place**.
+
+### Example
+
+    Input:
+    1 → 2 → 3 → 4 → 5
+
+    Output:
+    1 → 5 → 2 → 4 → 3
+
+---
+
+## Approach: Middle + Reverse + Merge
+
+The solution uses three important linked-list techniques:
+
+1. Find the middle of the linked list
+2. Reverse the second half
+3. Merge both halves alternately
+
+### Step 1: Find the Middle
+
+Use the **slow and fast pointer** technique.
+
+    1 → 2 → 3 → 4 → 5
+            ↑
+           slow
+
+Split the list:
+
+    First Half:
+    1 → 2 → 3
+
+    Second Half:
+    4 → 5
+
+### Step 2: Reverse the Second Half
+
+Reverse:
+
+    4 → 5
+
+into:
+
+    5 → 4
+
+Now:
+
+    First Half:   1 → 2 → 3
+    Second Half:  5 → 4
+
+### Step 3: Merge Both Halves
+
+Take nodes alternately from both halves:
+
+    1 → 5 → 2 → 4 → 3
+
+---
+
+## Edge Case
+
+For lists with one or two nodes, no reordering is required.
+
+Example:
+
+    1 → 2
+
+Output:
+
+    1 → 2
+
+---
+
+## Complexity
+
+### Time Complexity
+
+    O(N)
+
+The linked list is traversed for finding the middle, reversing the second half, and merging both halves.
+
+### Space Complexity
+
+    O(1)
+
+Only a few pointer variables are used and the list is modified in-place.
+
+---
+
+## Key Takeaway
+
+For the optimal approach:
+
+    1. Find the middle
+    2. Split the list
+    3. Reverse the second half
+    4. Merge both halves alternately
+
+The important pattern is:
+
+    Middle → Reverse → Merge
+
+---
+
+## Pattern
+
+**Linked List → Fast & Slow Pointers → Reverse Linked List → Merge**
+
+---
+
+### Word of the Day
+
+**Interleave** — to combine two sequences by alternating their elements.
+
+In this problem, the two halves are **interleaved**:
+
+    1 → 5 → 2 → 4 → 3
