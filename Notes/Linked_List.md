@@ -396,3 +396,63 @@ The important pattern is:
 In this problem, the two halves are **interleaved**:
 
     1 → 5 → 2 → 4 → 3
+
+
+Intersection of Two Linked Lists
+
+LeetCode: 160. Intersection of Two Linked Lists
+Difficulty: Easy
+Topic: Linked List, Two Pointers
+
+Problem
+
+Given the heads of two singly linked lists, return the node at which the two linked lists intersect.
+
+If the two linked lists do not intersect, return None.
+
+Important: Intersection means the same node/object, not just the same value.
+
+Example
+List A:  4 → 1 ──→ 8 → 4 → 5
+                    ↑
+                    │
+List B:  5 → 6 → 1 ─┘
+
+
+Intersection Node = 8
+
+Here, both lists point to the same ListNode object containing 8.
+
+Approach
+1. Calculate the length of both lists
+List A:  4 → 1 → 8 → 4 → 5
+Length = 5
+
+
+List B:  5 → 6 → 1 → 8 → 4 → 5
+Length = 6
+2. Find the difference
+Difference = |5 - 6| = 1
+3. Move the pointer of the longer list ahead
+List A:  4 → 1 → 8 → 4 → 5
+              ↑
+
+
+List B:  5 → 6 → 1 → 8 → 4 → 5
+              ↑
+
+Now both pointers are at the same relative position from the end.
+
+4. Move both pointers together
+h1 → 8
+h2 → 8
+
+Check:
+
+if h1 is h2:
+
+If True, we found the intersection node.
+
+Why is instead of ==?
+
+is checks object identity.
