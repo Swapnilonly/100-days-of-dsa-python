@@ -456,3 +456,172 @@ If True, we found the intersection node.
 Why is instead of ==?
 
 is checks object identity.
+
+
+
+## Problem
+
+You are given two non-empty linked lists representing two non-negative integers.
+
+The digits are stored in **reverse order**, and each node contains a single digit.
+
+Add the two numbers and return the result as a linked list.
+
+### Example
+
+    Input:
+    l1 = 2 → 4 → 3
+    l2 = 5 → 6 → 4
+
+    Output:
+    7 → 0 → 8
+
+Explanation:
+
+    l1 represents 342
+    l2 represents 465
+
+    342 + 465 = 807
+
+    Result:
+    7 → 0 → 8
+
+---
+
+## Approach: Traverse + Add + Carry
+
+The solution uses three important linked-list techniques:
+
+1. Traverse both linked lists simultaneously
+2. Add corresponding digits with carry
+3. Build the result list using a dummy node
+
+### Step 1: Traverse Both Lists
+
+Use two pointers to traverse both linked lists.
+
+    l1: 2 → 4 → 3
+        ↑
+      temp1
+
+    l2: 5 → 6 → 4
+        ↑
+      temp2
+
+Continue while at least one list still has a node.
+
+If one list is shorter, treat its missing value as `0`.
+
+    val1 = temp1.val if temp1 else 0
+    val2 = temp2.val if temp2 else 0
+
+### Step 2: Add Digits and Handle Carry
+
+Add the current digits along with the previous carry.
+
+    sum = val1 + val2 + carry
+
+Calculate the current digit:
+
+    digit = sum % 10
+
+Calculate the carry for the next position:
+
+    carry = sum // 10
+
+Example:
+
+    9 + 8 = 17
+
+    digit = 7
+    carry = 1
+
+The carry is added to the next addition.
+
+### Step 3: Build the Result List
+
+Create a new node using the calculated digit and attach it to the result list.
+
+    l1:      2 → 4 → 3
+    l2:      5 → 6 → 4
+
+              ↓
+
+    Result:   7 → 0 → 8
+
+If a carry is still left after both lists are exhausted, add one final node.
+
+Example:
+
+    l1 = 9 → 9
+    l2 = 9 → 9
+
+    9 + 9 = 18
+    9 + 9 + 1 = 19
+
+    Result:
+    8 → 9 → 1
+
+---
+
+## Edge Case
+
+For lists with different lengths, treat the missing digits as `0`.
+
+Example:
+
+    l1 = 2 → 4 → 3
+    l2 = 5 → 6
+
+    Output:
+    7 → 0 → 3
+
+If a carry remains after processing both lists, add it as the final node.
+
+Example:
+
+    l1 = 9
+    l2 = 9
+
+    Output:
+    8 → 1
+
+---
+
+## Complexity
+
+### Time Complexity
+
+    O(N)
+
+The linked lists are traversed once, where `N` is the length of the longer list.
+
+### Space Complexity
+
+    O(N)
+
+The result linked list requires up to `N + 1` nodes because of a possible final carry.
+
+---
+
+## Key Takeaway
+
+For the optimal approach:
+
+    1. Traverse both lists
+    2. Get the current values
+    3. Add values with carry
+    4. Store the current digit
+    5. Update the carry
+    6. Move both pointers
+    7. Add the final carry if required
+
+The important pattern is:
+
+    Traverse → Add → Carry → Build
+
+---
+
+## Pattern
+
+**Linked List → Simultaneous Traversal → Carry Handling → Dummy Node → Result List**
