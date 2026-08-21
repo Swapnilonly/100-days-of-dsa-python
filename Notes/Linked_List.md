@@ -625,3 +625,141 @@ The important pattern is:
 ## Pattern
 
 **Linked List → Simultaneous Traversal → Carry Handling → Dummy Node → Result List**
+
+
+
+# 138. Copy List with Random Pointer
+
+**LeetCode:** 138
+**Difficulty:** Medium
+**Topic:** Linked List, HashMap, Deep Copy
+
+---
+
+## Problem
+
+Given a linked list where each node has:
+
+* `val`
+* `next`
+* `random`
+
+The `random` pointer can point to **any node** in the list or `None`.
+
+Create a **deep copy** of the linked list.
+
+---
+
+## Example
+
+```text
+Original:
+
+7 → 13 → 11 → 10 → 1
+↓    ↓     ↓     ↓    ↓
+-    7     1    11    7
+
+
+Copy:
+
+7' → 13' → 11' → 10' → 1'
+↓     ↓      ↓      ↓     ↓
+-     7'     1'    11'    7'
+```
+
+The copied nodes must be completely independent of the original nodes.
+
+---
+
+## Approach
+
+### 1. Create Copies
+
+Traverse the original linked list and create a new node for every node.
+
+Store the relationship in a HashMap:
+
+```text
+Original Node → Copied Node
+```
+
+Example:
+
+```text
+7  → 7'
+13 → 13'
+11 → 11'
+```
+
+### 2. Connect `next` and `random`
+
+Traverse the list again.
+
+For every original node:
+
+```text
+copy.next   = copied version of curr.next
+copy.random = copied version of curr.random
+```
+
+The HashMap lets us find the copied node in `O(1)` average time.
+
+### 3. Return the Copied Head
+
+```text
+hashmap.get(head)
+```
+
+---
+
+## Edge Cases
+
+* `head = None`
+* Single node
+* `random = None`
+* `random` points to itself
+* `random` points to any other node
+
+---
+
+## Complexity
+
+**Time:** `O(n)`
+Two traversals of the linked list.
+
+**Space:** `O(n)`
+HashMap stores every original-to-copy relationship.
+
+---
+
+## Key Takeaway
+
+The main pattern is:
+
+```text
+Original Node → Copied Node
+```
+
+Use a **HashMap** when copied nodes need to maintain relationships with other copied nodes.
+
+```text
+Pass 1 → Create all nodes
+Pass 2 → Connect next + random
+```
+
+---
+
+## Pattern
+
+**HashMap + Linked List → Deep Copy**
+
+This pattern is useful when nodes have complex relationships such as:
+
+```text
+next
+random
+parent
+neighbors
+```
+
+---
