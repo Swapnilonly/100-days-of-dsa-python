@@ -762,4 +762,49 @@ parent
 neighbors
 ```
 
+
+# 287. Find the Duplicate Number
+
+**LeetCode:** [Find the Duplicate Number](https://leetcode.com/problems/find-the-duplicate-number/)
+
+## 📌 Problem
+
+Given an array `nums` containing `n + 1` integers where each integer is in the range `[1, n]`, find the **one repeated number**.
+
+The array must not be modified, and the solution should use **O(1) extra space**.
+
 ---
+
+## 💡 Approach
+
+### Floyd's Cycle Detection Algorithm
+
+Treat the array like a **Linked List**:
+
+- `index → nums[index]`
+- The duplicate number creates a **cycle**.
+- The duplicate number is the **entrance of that cycle**.
+
+### Steps
+
+1. Initialize `slow` and `fast` at the starting position.
+2. Move `slow` one step at a time.
+3. Move `fast` two steps at a time.
+4. When `slow == fast`, a cycle has been detected.
+5. The first meeting point is **not necessarily the duplicate number**.
+6. Move `slow` back to the starting position.
+7. Move both `slow` and `fast` one step at a time.
+8. When they meet again, that position is the **cycle entrance**.
+9. The cycle entrance is the **duplicate number**.
+
+### Example
+
+```text
+[1, 3, 4, 2, 2]
+
+0 → 1 → 3 → 2 → 4
+          ↑       ↓
+          └───────┘
+
+Cycle: 2 → 4 → 2
+Duplicate: 2
