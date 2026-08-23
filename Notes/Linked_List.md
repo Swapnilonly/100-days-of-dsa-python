@@ -808,3 +808,42 @@ Treat the array like a **Linked List**:
 
 Cycle: 2 → 4 → 2
 Duplicate: 2
+
+
+
+# 146. LRU Cache
+
+**LeetCode:** [LRU Cache](https://leetcode.com/problems/lru-cache/)
+
+## 📌 Problem
+
+Design a data structure that follows the **Least Recently Used (LRU)** cache policy.
+
+Implement:
+
+- `get(key)` → Return the value if the key exists, otherwise return `-1`.
+- `put(key, value)` → Insert or update the key-value pair.
+
+If the cache exceeds its capacity, remove the **least recently used** item.
+
+Both `get()` and `put()` must run in **O(1)** time.
+
+---
+
+## 💡 Approach
+
+### HashMap + Doubly Linked List
+
+Use a **HashMap** and a **Doubly Linked List** together.
+
+- HashMap stores `key → Node` for **O(1) lookup**.
+- Doubly Linked List maintains the order of recently used nodes.
+- `head` represents the **Most Recently Used (MRU)** node.
+- `tail` represents the **Least Recently Used (LRU)** node.
+
+```text
+HEAD                                      TAIL
+ ↓                                          ↓
+[3] ⇄ [1] ⇄ [5] ⇄ [2]
+ ↑                                          ↑
+MRU                                        LRU
