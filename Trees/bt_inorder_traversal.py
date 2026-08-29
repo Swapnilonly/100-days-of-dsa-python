@@ -6,19 +6,21 @@
 #         self.right = right
 
 
-# PREORDER TRAVERSAL --> ROOT, LEFT, RIGHT
+# INORDER TRAVERSAL --> LEFT, ROOT, RIGHT
 class Solution:
-    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         res = []
 
-        def pre(root):
+        def func(root):
             if not root:
-                return 0
-
+                return []
+            func(root.left)
             res.append(root.val)
-            pre(root.left)
-            pre(root.right)
+            func(root.right)
 
-        pre(root)
+        func(root)
 
         return res
+
+
+
