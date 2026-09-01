@@ -248,3 +248,164 @@ to identify the nodes belonging to the current level.
 **Example:**
 
 > We traverse the binary tree level by level using BFS.
+
+
+
+
+# 🌳 Subtree of Another Tree
+
+**LeetCode:** [572. Subtree of Another Tree](https://leetcode.com/problems/subtree-of-another-tree/)
+
+---
+
+## 📌 Problem
+
+Given the roots of two binary trees `root` and `subRoot`, determine whether `subRoot` is a subtree of `root`.
+
+A subtree must have the **same structure and node values** as a portion of the main tree.
+
+### Example
+
+```text
+root:
+
+        3
+       / \
+      4   5
+     / \
+    1   2
+
+
+subRoot:
+
+      4
+     / \
+    1   2
+```
+
+Output:
+
+```text
+True
+```
+
+The tree rooted at `4` is exactly the same as `subRoot`.
+
+---
+
+## 💡 Approach
+
+Use **Recursion + Tree Comparison**.
+
+The problem can be divided into two tasks:
+
+1. **Search** for a node in `root` that could be the root of `subRoot`.
+2. **Compare** both trees to check whether they are exactly identical.
+
+We use a helper function `isSameTree()` to compare two trees.
+
+### Algorithm
+
+```text
+                 root
+                   |
+          Is root == subRoot?
+             /           \
+           Yes             No
+            |               |
+      Compare trees     Search left
+                        and right
+```
+
+---
+
+## 🔄 Steps
+
+1. If `subRoot` is `None`, return `True`.
+2. If `root` is `None`, return `False`.
+3. Check whether the trees rooted at `root` and `subRoot` are identical.
+4. If they are identical, return `True`.
+5. Otherwise, recursively search in:
+
+   * `root.left`
+   * `root.right`
+6. Return `True` if either side contains `subRoot`.
+
+### Tree Comparison
+
+For `isSameTree()`:
+
+1. If both nodes are `None`, return `True`.
+2. If only one node is `None`, return `False`.
+3. If their values are different, return `False`.
+4. Recursively compare:
+
+   * Left subtrees
+   * Right subtrees
+5. Both sides must match.
+
+---
+
+## 🧠 Key Idea
+
+```text
+isSubtree()
+     |
+     ├── Find possible matching node
+     |
+     └── isSameTree()
+              |
+              ├── Compare values
+              ├── Compare left subtree
+              └── Compare right subtree
+```
+
+The important distinction is:
+
+* `isSubtree()` → **searches**
+* `isSameTree()` → **compares**
+
+---
+
+## ⏱️ Complexity
+
+Let:
+
+* `n` = number of nodes in `root`
+* `m` = number of nodes in `subRoot`
+
+### Time Complexity
+
+```text
+O(n × m)
+```
+
+In the worst case, we may compare `subRoot` with many nodes of `root`.
+
+### Space Complexity
+
+```text
+O(h)
+```
+
+where `h` is the height of the tree, due to recursion.
+
+For a skewed tree:
+
+```text
+O(n)
+```
+
+---
+
+## 🔑 Pattern Learned
+
+**Tree Traversal + Tree Comparison**
+
+This pattern is useful for problems where we need to:
+
+* Find a tree inside another tree
+* Compare two binary trees
+* Check whether two subtrees are identical
+* Search for a particular tree structure
+
