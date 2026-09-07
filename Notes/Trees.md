@@ -409,3 +409,127 @@ This pattern is useful for problems where we need to:
 * Check whether two subtrees are identical
 * Search for a particular tree structure
 
+
+
+# Validate Binary Search Tree
+
+[LeetCode 98 — Validate Binary Search Tree](https://leetcode.com/problems/validate-binary-search-tree/)
+
+## 📌 Problem
+
+Given the root of a binary tree, determine whether it is a valid **Binary Search Tree (BST)**.
+
+A valid BST follows these rules:
+
+* All nodes in the left subtree must have values **less than** the current node.
+* All nodes in the right subtree must have values **greater than** the current node.
+* The same rule must be true for **every node** in the tree.
+
+---
+
+## 💡 Approach
+
+### Algorithm: **DFS with Range Validation**
+
+Instead of checking only the immediate children of each node, maintain a valid range `(min, max)` for every node.
+
+For each node:
+
+1. Check whether its value lies within the allowed range.
+2. For the left subtree:
+
+   * Update the upper bound to the current node's value.
+3. For the right subtree:
+
+   * Update the lower bound to the current node's value.
+4. If any node violates its range, return `False`.
+5. If all nodes satisfy their ranges, return `True`.
+
+### Example
+
+```text
+        5
+       / \
+      3   8
+     / \   \
+    2   4   9
+```
+
+Start with:
+
+```text
+5 → (-∞, +∞)
+```
+
+Then:
+
+```text
+3 → (-∞, 5)
+8 → (5, +∞)
+
+2 → (-∞, 3)
+4 → (3, 5)
+9 → (8, +∞)
+```
+
+Every node stays within its valid range → **Valid BST**.
+
+---
+
+## 🔄 Algorithm Steps
+
+1. Start DFS from the root with range `(-∞, +∞)`.
+2. If the node is `None`, return `True`.
+3. If `node.val` is not within `(min, max)`, return `False`.
+4. Recursively validate the left subtree with:
+
+   ```text
+   (min, node.val)
+   ```
+5. Recursively validate the right subtree with:
+
+   ```text
+   (node.val, max)
+   ```
+6. Return `True` only if both subtrees are valid.
+
+---
+
+## ⏱️ Complexity
+
+* **Time:** `O(n)` — every node is visited once.
+* **Space:** `O(h)` — recursion stack, where `h` is the height of the tree.
+
+  * Balanced tree: `O(log n)`
+  * Skewed tree: `O(n)`
+
+---
+
+## ⚠️ Important Insight
+
+Checking only the immediate children is **not enough**.
+
+```text
+        5
+       / \
+      3   7
+       \
+        6   ❌
+```
+
+`6 > 3`, so it looks valid when checking node `3`.
+
+But `6` is inside the **left subtree of `5`**, so it must be `< 5`.
+
+Therefore, the tree is invalid.
+
+The key idea is to maintain the **valid range inherited from all ancestors**.
+
+---
+
+## 🧠 Key Takeaway
+
+> In a BST, a node is not only constrained by its parent — it is constrained by **all of its ancestors**.
+
+This is why **range validation** is a powerful approach for BST problems.
+
