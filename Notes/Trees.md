@@ -527,9 +527,69 @@ The key idea is to maintain the **valid range inherited from all ancestors**.
 
 ---
 
-## 🧠 Key Takeaway
 
-> In a BST, a node is not only constrained by its parent — it is constrained by **all of its ancestors**.
+# Kth Smallest Element in a BST
 
-This is why **range validation** is a powerful approach for BST problems.
+## 💡 Intuition
 
+In a **Binary Search Tree (BST)**, **inorder traversal** visits nodes in sorted order:
+
+```text
+Left → Root → Right
+```
+
+Therefore, if we count nodes during inorder traversal, the node where `count == k` is the **kth smallest element**.
+
+---
+
+## 🚀 Approach
+
+1. Recursively visit the **left subtree** first.
+2. Increment `count` when visiting the current node.
+3. If `count == k`, store the current node's value in `ans`.
+4. Only visit the **right subtree** if `count < k`, avoiding unnecessary traversal after finding the answer.
+5. Return `ans`.
+
+---
+
+## 🧠 Algorithm
+
+**Inorder Traversal**
+
+```text
+1. Traverse left subtree
+2. Process current node
+   → count += 1
+3. If count == k
+   → store current node value
+4. Traverse right subtree
+```
+
+Because a BST produces values in ascending order during inorder traversal, the `k`th visited node is the kth smallest element.
+
+---
+
+## ⏱️ Complexity
+
+### Time Complexity
+
+**O(h + k)** in the optimized traversal, where:
+
+* `h` = height of the tree
+* `k` = position of the required element
+
+Worst case: **O(n)**
+
+### Space Complexity
+
+**O(h)** for the recursion stack.
+
+Where `h` is the height of the tree.
+
+---
+
+## 📌 Key Concept
+
+> **Inorder traversal of a BST produces elements in sorted order.**
+
+This makes inorder traversal the natural approach for finding the **kth smallest element** in a BST.
