@@ -593,3 +593,193 @@ Where `h` is the height of the tree.
 > **Inorder traversal of a BST produces elements in sorted order.**
 
 This makes inorder traversal the natural approach for finding the **kth smallest element** in a BST.
+
+
+
+# Construct Binary Tree from Preorder and Inorder Traversal
+
+**LeetCode:** https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
+
+## 📌 Problem
+
+Given two integer arrays:
+
+* `preorder` — represents the preorder traversal of a binary tree.
+* `inorder` — represents the inorder traversal of the same binary tree.
+
+Construct and return the original binary tree.
+
+### Traversals
+
+**Preorder:**
+
+```text
+Root → Left → Right
+```
+
+**Inorder:**
+
+```text
+Left → Root → Right
+```
+
+### Example
+
+```text
+Preorder = [3, 9, 20, 15, 7]
+Inorder  = [9, 3, 15, 20, 7]
+```
+
+Constructed tree:
+
+```text
+        3
+       / \
+      9   20
+         /  \
+        15   7
+```
+
+---
+
+## 💡 Approach
+
+### Algorithm: Recursion + Hash Map
+
+The key observation is:
+
+* The **first element of preorder** is always the root.
+* Find this root in `inorder`.
+* Elements to the **left** of the root belong to the left subtree.
+* Elements to the **right** of the root belong to the right subtree.
+* Recursively construct both subtrees.
+
+A hash map is used to store the index of every value in `inorder`, allowing the root position to be found in `O(1)` average time.
+
+---
+
+## 🚀 Steps
+
+1. Create a hash map containing each `inorder` value and its index.
+2. Maintain a pointer to the current element in `preorder`.
+3. For the current recursive range:
+
+   * If `start > end`, return `None`.
+   * Take the current preorder element as the root.
+   * Move the preorder pointer forward.
+4. Find the root's index in `inorder`.
+5. Recursively construct the **left subtree** using:
+
+   ```text
+   start → root_index - 1
+   ```
+6. Recursively construct the **right subtree** using:
+
+   ```text
+   root_index + 1 → end
+   ```
+7. Return the root node.
+
+---
+
+## 🔍 How the Tree Gets Connected
+
+Each recursive call returns the root of its subtree.
+
+```text
+root.left  = left_subtree
+root.right = right_subtree
+```
+
+For example:
+
+```text
+        3
+       / \
+      9   20
+         /  \
+        15   7
+```
+
+The recursive calls effectively create:
+
+```text
+3.left  = 9
+3.right = 20
+
+20.left  = 15
+20.right = 7
+```
+
+So recursion doesn't just create nodes — the returned subtree roots are assigned to the parent's `left` and `right` pointers.
+
+---
+
+## 🧠 Key Insight
+
+> **Preorder tells us WHO is the root, while inorder tells us WHERE to split the left and right subtrees.**
+
+For:
+
+```text
+Preorder = [3, 9, 20, 15, 7]
+Inorder  = [9, 3, 15, 20, 7]
+```
+
+First preorder element:
+
+```text
+3
+```
+
+is the root.
+
+In inorder:
+
+```text
+[9, 3, 15, 20, 7]
+    ↑
+```
+
+Therefore:
+
+```text
+Left subtree  → [9]
+Right subtree → [15, 20, 7]
+```
+
+The same process is repeated recursively for each subtree.
+
+---
+
+## ⏱️ Complexity
+
+### Time Complexity
+
+```text
+O(n)
+```
+
+Each node is processed once, and the hash map provides `O(1)` average lookup for the root's position.
+
+### Space Complexity
+
+```text
+O(n)
+```
+
+* `O(n)` for the inorder hash map.
+* `O(n)` worst-case recursion stack for a skewed tree.
+
+---
+
+## 🔑 Important Concepts
+
+* Binary Tree
+* Preorder Traversal
+* Inorder Traversal
+* Recursion
+* Hash Map
+* Divide and Conquer
+* Recursive Tree Construction
+* Tree Node Linking
