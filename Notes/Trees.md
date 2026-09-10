@@ -783,3 +783,760 @@ O(n)
 * Divide and Conquer
 * Recursive Tree Construction
 * Tree Node Linking
+
+
+# 🌳 Binary Tree Maximum Path Sum
+
+**LeetCode:** https://leetcode.com/problems/binary-tree-maximum-path-sum/
+**Difficulty:** Hard
+**Topic:** Binary Tree, DFS, Recursion, Tree Dynamic Programming
+
+---
+
+## 📌 Problem
+
+Given the root of a binary tree, find the **maximum path sum**.
+
+A path can start and end at **any node** in the tree.
+
+A path must follow connected nodes, but it **does not need to pass through the root**.
+
+Each node can appear at most once in the path.
+
+### Example
+
+```text
+        -10
+        /  \
+       9    20
+           /  \
+          15   7
+```
+
+The maximum path is:
+
+```text
+15 → 20 → 7
+```
+
+Sum:
+
+```text
+15 + 20 + 7 = 42
+```
+
+**Output:**
+
+```text
+42
+```
+
+---
+
+## 💡 Approach
+
+### Algorithm: Depth-First Search (DFS) + Recursion
+
+For every node, calculate two things:
+
+1. **Maximum path sum passing through the current node**
+2. **Maximum one-sided path sum that can be returned to its parent**
+
+The important idea is that a path passing through a node can use **both left and right subtrees**, but the value returned to the parent can use only **one side**.
+
+---
+
+## 🔍 Important Difference
+
+This is the most important concept in the problem.
+
+### Path through current node
+
+```python
+root.val + left + right
+```
+
+Can use:
+
+```text
+Left → Root → Right
+```
+
+Example:
+
+```text
+15 → 20 → 7
+
+= 42
+```
+
+### Value returned to parent
+
+```python
+root.val + max(left, right)
+```
+
+Can use only:
+
+```text
+Root → Left
+```
+
+or:
+
+```text
+Root → Right
+```
+
+Example:
+
+```text
+20 → 15
+
+= 35
+```
+
+---
+
+## ⚠️ Edge Case: All Negative Nodes
+
+Consider:
+
+```text
+       -3
+       / \
+     -5  -2
+```
+
+We **cannot** initialize:
+
+```python
+self.res = 0
+```
+
+because that would incorrectly return `0`.
+
+Instead:
+
+```python
+self.res = float('-inf')
+```
+
+Now:
+
+```text
+-5 → res = -5
+-2 → res = -2
+-3 → res = -2
+```
+
+Correct answer:
+
+```text
+-2
+```
+
+The `max(..., 0)` is still used for subtree contributions because a negative subtree should simply be ignored.
+
+---
+
+## ⏱️ Complexity
+
+### Time Complexity
+
+```text
+O(N)
+```
+
+Every node is visited exactly once.
+
+### Space Complexity
+
+```text
+O(H)
+```
+
+where `H` is the height of the tree because of the recursion stack.
+
+For a balanced tree:
+
+```text
+O(log N)
+```
+
+For a skewed tree:
+
+```text
+O(N)
+```
+
+---
+
+## 🔑 Key Takeaway
+
+The core idea is:
+
+```python
+# Maximum path passing through current node
+root.val + left + right
+```
+
+but:
+
+```python
+# Maximum path that can be extended to parent
+root.val + max(left, right)
+```
+
+Remember:
+
+```text
+                 Current Node
+                /            \
+               /              \
+          left path        right path
+
+        left + node + right
+               ↓
+          Global Answer
+
+        node + max(left, right)
+               ↓
+          Return to Parent
+```
+
+Also remember:
+
+```python
+self.res = float('-inf')
+```
+
+because the answer can be negative.
+
+##
+
+
+# 🌳 Count Nodes With Average of Subtree
+
+**LeetCode:** https://leetcode.com/problems/count-nodes-with-the-highest-average-subtree/
+**Difficulty:** Easy
+**Topic:** Binary Tree, DFS, Post-Order Traversal
+
+---
+
+## 📌 Problem
+
+Given the root of a binary tree, count the number of nodes whose value is equal to the **average of all values in its subtree**.
+
+The subtree includes:
+
+* The current node
+* All nodes in its left subtree
+* All nodes in its right subtree
+
+The average is calculated using integer division.
+
+### Example
+
+```text
+        4
+       / \
+      8   5
+     / \
+    0   1
+```
+
+For node `0`:
+
+```text
+sum = 0
+count = 1
+
+average = 0 // 1
+        = 0
+```
+
+```text
+0 == 0 ✅
+```
+
+So node `0` is counted.
+
+For node `8`:
+
+```text
+sum = 8 + 0 + 1
+    = 9
+
+count = 3
+
+average = 9 // 3
+        = 3
+```
+
+```text
+3 != 8 ❌
+```
+
+For node `5`:
+
+```text
+sum = 5
+count = 1
+
+average = 5 // 1
+        = 5
+```
+
+```text
+5 == 5 ✅
+```
+
+Therefore, the nodes satisfying the condition are:
+
+```text
+0, 1, 5
+```
+
+**Output:**
+
+```text
+3
+```
+
+---
+
+## 💡 Approach: Post-Order Traversal (DFS)
+
+### Intuition
+
+To compute the average of a subtree, we need the:
+
+* **Sum** of all nodes in the subtree
+* **Count** of all nodes in the subtree
+
+A **bottom-up Post-Order Traversal** naturally gives us this information.
+
+We first solve:
+
+```text
+Left Subtree
+      ↓
+Right Subtree
+      ↓
+Current Node
+```
+
+Then we combine the results at the current node.
+
+The recursive function returns:
+
+```python
+(sum, count)
+```
+
+for every subtree.
+
+---
+
+## 🚀 Algorithm
+
+1. Recursively traverse the **left child**.
+2. Recursively traverse the **right child**.
+3. Each recursive call returns:
+
+   ```text
+   [sum, count]
+   ```
+
+   of that subtree.
+4. At the current node, calculate:
+
+   ```text
+   totalSum
+   totalCount
+   ```
+5. Calculate the average:
+
+   ```text
+   totalSum // totalCount
+   ```
+6. If:
+
+   ```text
+   average == node.val
+   ```
+
+   increment the answer.
+7. Return:
+
+   ```text
+   [totalSum, totalCount]
+   ```
+
+   to the parent.
+
+---
+
+## 🔄 Post-Order Traversal
+
+Post-order means:
+
+```text
+Left → Right → Root
+```
+
+For this tree:
+
+```text
+        4
+       / \
+      8   5
+     / \
+    0   1
+```
+
+The traversal order is:
+
+```text
+0 → 1 → 8 → 5 → 4
+```
+
+This is useful because when we reach a node, we already know the information from both of its children.
+
+---
+
+## 🧠 Example Walkthrough
+
+### Node `0`
+
+```text
+sum = 0
+count = 1
+
+average = 0 // 1
+        = 0
+```
+
+```text
+0 == 0 ✅
+```
+
+Return:
+
+```text
+(0, 1)
+```
+
+---
+
+### Node `1`
+
+```text
+sum = 1
+count = 1
+
+average = 1 // 1
+        = 1
+```
+
+```text
+1 == 1 ✅
+```
+
+Return:
+
+```text
+(1, 1)
+```
+
+---
+
+### Node `8`
+
+Its children returned:
+
+```text
+left  = (0, 1)
+right = (1, 1)
+```
+
+Now combine them with node `8`:
+
+```text
+totalSum = 0 + 1 + 8
+         = 9
+
+totalCount = 1 + 1 + 1
+           = 3
+```
+
+Average:
+
+```text
+9 // 3 = 3
+```
+
+```text
+3 != 8 ❌
+```
+
+Return:
+
+```text
+(9, 3)
+```
+
+---
+
+### Node `5`
+
+No children:
+
+```text
+totalSum = 5
+totalCount = 1
+
+average = 5 // 1
+        = 5
+```
+
+```text
+5 == 5 ✅
+```
+
+Return:
+
+```text
+(5, 1)
+```
+
+---
+
+### Node `4`
+
+Its children returned:
+
+```text
+left  = (9, 3)
+right = (5, 1)
+```
+
+Combine:
+
+```text
+totalSum = 9 + 5 + 4
+         = 18
+
+totalCount = 3 + 1 + 1
+           = 5
+```
+
+Average:
+
+```text
+18 // 5 = 3
+```
+
+```text
+3 != 4 ❌
+```
+
+Final answer:
+
+```text
+3
+```
+
+---
+
+## 💻 Solution
+
+```python
+class Solution:
+    def averageOfSubtree(self, root: TreeNode) -> int:
+        self.res = 0
+
+        def func(node):
+            if not node:
+                return 0, 0
+
+            lsum, lcount = func(node.left)
+            rsum, rcount = func(node.right)
+
+            summ = lsum + rsum + node.val
+            count = lcount + rcount + 1
+
+            if summ // count == node.val:
+                self.res += 1
+
+            return summ, count
+
+        func(root)
+
+        return self.res
+```
+
+---
+
+## 🔑 Why Do We Return `(sum, count)`?
+
+The parent needs information about the entire subtree of each child.
+
+For example:
+
+```text
+        8
+       / \
+      0   1
+```
+
+After processing the children:
+
+```text
+0 → (0, 1)
+1 → (1, 1)
+```
+
+Now node `8` can calculate:
+
+```text
+sum = 0 + 1 + 8
+    = 9
+
+count = 1 + 1 + 1
+      = 3
+```
+
+So it returns:
+
+```text
+(9, 3)
+```
+
+Then its parent can use `(9, 3)` without traversing those nodes again.
+
+This is the key **bottom-up** idea.
+
+---
+
+## 🎯 Pattern
+
+### Post-Order DFS + Returning Multiple Values
+
+Whenever a tree problem asks about information related to an entire subtree, think:
+
+```text
+         Current Node
+        /            \
+       ↓              ↓
+ Left Subtree      Right Subtree
+ (sum, count)      (sum, count)
+       \              /
+        \            /
+         ↓          ↓
+        Combine Results
+               ↓
+       Current Subtree
+        (sum, count)
+               ↓
+        Return to Parent
+```
+
+This pattern can be useful for:
+
+* Subtree Sum
+* Subtree Size
+* Subtree Average
+* Counting nodes based on subtree properties
+* Calculating minimum/maximum values in subtrees
+
+---
+
+## ⏱️ Complexity
+
+### Time Complexity
+
+```text
+O(N)
+```
+
+Every node is visited exactly once.
+
+### Space Complexity
+
+```text
+O(H)
+```
+
+where `H` is the height of the tree due to the recursion stack.
+
+For a balanced tree:
+
+```text
+O(log N)
+```
+
+For a skewed tree:
+
+```text
+O(N)
+```
+
+---
+
+## 🔑 Key Takeaway
+
+The main idea is:
+
+> **Solve the children first, then use their results to solve the current node.**
+
+```text
+Post-Order:
+
+Left
+ ↓
+Right
+ ↓
+Root
+```
+
+Each DFS call returns:
+
+```python
+(sum, count)
+```
+
+Then:
+
+```python
+total_sum = left_sum + right_sum + node.val
+total_count = left_count + right_count + 1
+```
+
+Finally:
+
+```python
+if total_sum // total_count == node.val:
+    self.res += 1
+```
+
+So the core pattern is:
+
+```text
+Children's Information
+        ↓
+Combine
+        ↓
+Check Current Node
+        ↓
+Return Information to Parent
+```
+
+---
+
+## 📝 Word of the Day
+
+**Bottom-up** — solving smaller components first and using their results to solve the larger problem.
+
+In this problem, we solve the **child subtrees first**, then calculate the result for the current node.
