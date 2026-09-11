@@ -1540,3 +1540,212 @@ Return Information to Parent
 **Bottom-up** — solving smaller components first and using their results to solve the larger problem.
 
 In this problem, we solve the **child subtrees first**, then calculate the result for the current node.
+
+
+
+# 297. Serialize and Deserialize Binary Tree
+
+**LeetCode:** https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
+
+**Difficulty:** Hard
+
+**Algorithm:** Preorder DFS + NULL Markers
+
+---
+
+## 📌 Problem
+
+Design an algorithm to **serialize** a binary tree into a string and **deserialize** that string back into the original binary tree.
+
+The reconstructed tree must have the **same structure and values** as the original tree.
+
+---
+
+## 💡 Approach
+
+Use **Preorder Traversal**:
+
+```text
+Root → Left → Right
+```
+
+While serializing:
+
+* Store each node's value.
+* If a node is `None`, store `"null"`.
+* Store the values in a list.
+* Convert the list into a string using `",".join()`.
+
+Example:
+
+```text
+        1
+       / \
+      2   3
+         / \
+        4   5
+```
+
+Serialized:
+
+```text
+1,2,null,null,3,4,null,null,5,null,null
+```
+
+The `null` markers are important because they preserve the **structure** of the tree.
+
+---
+
+## 🔄 Deserialization
+
+Split the serialized string using `","` to get the values back.
+
+Then reconstruct the tree using the same **Preorder order**:
+
+```text
+Root → Left → Right
+```
+
+### Steps
+
+1. Read the current value.
+2. If it is `"null"`, return `None`.
+3. Otherwise, create a new `TreeNode`.
+4. Recursively build its left subtree.
+5. Recursively build its right subtree.
+6. Return the created node.
+
+---
+
+## 🧠 Example
+
+Serialized data:
+
+```text
+1,2,null,null,3,4,null,null,5,null,null
+```
+
+Reconstruction:
+
+```text
+        1
+       / \
+      2   3
+         / \
+        4   5
+```
+
+The first value is always the root in preorder.
+
+For every node, the following values describe its:
+
+```text
+Left Subtree → Right Subtree
+```
+
+`null` tells us that a child does not exist.
+
+---
+
+## ⚙️ Algorithm
+
+### Serialization
+
+```text
+serialize(root):
+
+1. If root is None:
+      store "null"
+2. Otherwise:
+      store root.val
+      serialize(root.left)
+      serialize(root.right)
+3. Join all values using ","
+```
+
+### Deserialization
+
+```text
+deserialize(data):
+
+1. Split data using ","
+2. Start from index = 0
+3. If current value is "null":
+      move index
+      return None
+4. Create a node using current value
+5. Build left subtree recursively
+6. Build right subtree recursively
+7. Return the node
+```
+
+---
+
+## ⏱️ Complexity
+
+Let `n` be the number of nodes.
+
+* **Time:** `O(n)`
+* **Space:** `O(n)`
+
+Every node is visited once during serialization and once during deserialization.
+
+---
+
+## 🔑 Key Insight
+
+Preorder values alone are **not enough** to reconstruct a binary tree.
+
+For example:
+
+```text
+    1          1
+   /            \
+  2              2
+```
+
+Both can have:
+
+```text
+1,2
+```
+
+as preorder.
+
+Therefore, we also store `null` values:
+
+```text
+1,2,null,null,null
+```
+
+vs.
+
+```text
+1,null,2,null,null
+```
+
+Now the structure can be uniquely reconstructed.
+
+---
+
+## 📝 Important Concept
+
+```text
+Binary Tree
+     ↓
+Preorder DFS
+     ↓
+Values + NULL markers
+     ↓
+Serialized String
+     ↓
+Split into values
+     ↓
+Preorder Reconstruction
+     ↓
+Original Binary Tree
+```
+
+### Key Takeaway
+
+> **Preo**
