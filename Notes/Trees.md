@@ -1749,3 +1749,144 @@ Original Binary Tree
 ### Key Takeaway
 
 > **Preo**
+
+# Lowest Common Ancestor of a Binary Tree
+
+**LeetCode:** https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
+**Difficulty:** Medium
+**Topic:** Binary Tree, DFS, Recursion
+**Pattern:** Post-Order Traversal
+
+---
+
+## 📌 Problem
+
+Given a binary tree, find the **Lowest Common Ancestor (LCA)** of two given nodes `p` and `q`.
+
+The Lowest Common Ancestor is the **lowest node in the tree that has both ****`p`**** and ****`q`**** as descendants**.
+
+A node can also be considered a descendant of itself.
+
+### Example
+
+```text
+             3
+           /   \
+          5     1
+         / \
+        6   2
+           / \
+          7   4
+```
+
+```text
+p = 5
+q = 4
+
+Output = 5
+```
+
+---
+
+## 💡 Approach
+
+Use **Post-Order DFS** to search for `p` and `q` from the bottom of the tree.
+
+### Algorithm
+
+1. If the current node is `None`, return `None`.
+2. Recursively search the **left subtree**.
+3. Recursively search the **right subtree**.
+4. If the current node is `p` or `q`, return the current node.
+5. If both left and right subtrees return a node, then:
+
+   * One target is present on the left.
+   * The other target is present on the right.
+   * Therefore, the current node is the LCA.
+6. If only one side returns a node, return that node to the parent.
+7. Continue until the LCA is found.
+
+### Visual Idea
+
+```text
+             X
+           /   \
+          p     q
+```
+
+If:
+
+```text
+left  → p
+right → q
+```
+
+then:
+
+```text
+X = LCA
+```
+
+If the current node itself is one target:
+
+```text
+             p
+              \
+               q
+```
+
+then:
+
+```text
+p = LCA
+```
+
+---
+
+## 🔄 Traversal
+
+The solution uses **Post-Order Traversal**:
+
+```text
+Left → Right → Root
+```
+
+This allows information from both subtrees to be collected before deciding whether the current node is the LCA.
+
+---
+
+## ⚠️ Edge Cases
+
+* `p` and `q` are the same node.
+* One node is an ancestor of the other.
+* One target is in the left subtree and the other is in the right subtree.
+* One target is the root.
+
+---
+
+## ⏱️ Complexity
+
+**Time:** `O(n)`
+
+Each node is visited at most once.
+
+**Space:** `O(h)`
+
+Where `h` is the height of the tree due to the recursion stack.
+
+* Balanced tree → `O(log n)`
+* Skewed tree → `O(n)`
+
+---
+
+## 🎯 Key Takeaway
+
+The key idea is:
+
+> **If one target is found in the left subtree and the other in the right subtree, the current node is their Lowest Common Ancestor.**
+
+If only one target is found, **propagate** it upward to the parent.
+
+##
+
+##
