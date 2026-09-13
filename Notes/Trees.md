@@ -1889,4 +1889,98 @@ If only one target is found, **propagate** it upward to the parent.
 
 ##
 
-##
+
+
+# Binary Tree Zigzag Level Order Traversal
+
+**LeetCode:** [103. Binary Tree Zigzag Level Order Traversal](https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/)
+
+**Difficulty:** Medium
+
+**Topic:** Binary Tree, BFS, Queue
+
+---
+
+## 📌 Problem
+
+Given the root of a binary tree, return its zigzag level order traversal.
+
+In zigzag traversal, nodes are visited level by level, alternating the direction:
+
+* First level: Left → Right
+* Second level: Right → Left
+* Third level: Left → Right
+* Continue alternating.
+
+### Example
+
+```text
+        3
+       / \
+      9   20
+         /  \
+        15   7
+```
+
+**Input:**
+
+```python
+root = [3, 9, 20, None, None, 15, 7]
+```
+
+**Output:**
+
+```python
+[[3], [20, 9], [15, 7]]
+```
+
+---
+
+## 💡 Approach
+
+**Algorithm:** Breadth-First Search (BFS) with Level Reversal
+
+Use a queue to process the binary tree level by level. For every level, collect the node values in normal left-to-right order. If the current direction is right-to-left, reverse the collected level before adding it to the result.
+
+### Steps
+
+1. If the root is `None`, return an empty list.
+2. Initialize a queue with the root node.
+3. While the queue is not empty:
+
+   * Store the number of nodes in the current level.
+   * Process exactly those nodes.
+   * Add their values to the current level list.
+   * Append their left and right children to the queue.
+4. If the current direction is right-to-left, reverse the level list.
+5. Add the level to the result and toggle the direction.
+6. Return the result.
+
+---
+
+## ⏱️ Complexity
+
+**Time Complexity:** `O(n)`
+
+Every node is visited once. Reversing the levels takes a total of `O(n)` time across the tree.
+
+**Space Complexity:** `O(n)`
+
+The queue and result store up to `O(n)` nodes and values.
+
+---
+
+## 🎯 Key Takeaway
+
+Zigzag Level Order Traversal is a variation of standard BFS. The main idea is to process each level normally and reverse the level values whenever the traversal direction is right-to-left.
+
+**Pattern:** BFS + Level Processing + Direction Toggle
+
+---
+
+## 📚 Word of the Day
+
+**Invariant:** An invariant is a condition that remains true throughout an algorithm.
+
+In this problem, the queue maintains the invariant that it contains nodes waiting to be processed, level by level.
+
