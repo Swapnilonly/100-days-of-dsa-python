@@ -57,3 +57,63 @@ Graph Traversal + Adjacency List + BFS + Visited Set
 ## Word of the Day
 
 **Reachability:** The ability to get from one vertex to another through graph connections.
+
+
+
+# 547. Number of Provinces
+
+* **LeetCode:** [547. Number of Provinces](https://leetcode.com/problems/number-of-provinces/)
+* **Difficulty:** Medium
+* **Topic:** Graph, DFS, Adjacency Matrix, Connected Components
+
+## Problem
+
+Given an `n x n` adjacency matrix `isConnected`, where `isConnected[i][j] = 1` indicates a direct connection between city `i` and city `j`, return the total number of provinces.
+
+A province is a group of directly or indirectly connected cities.
+
+## Example
+
+```python
+isConnected = [
+    [1, 1, 0],
+    [1, 1, 0],
+    [0, 0, 1]
+]
+```
+
+**Output:**
+
+```python
+2
+```
+
+## Approach
+
+Use Depth First Search (DFS) to count connected components in the graph.
+
+### Steps
+
+1. Create a `visited` array of size `n`, initialized to `False`.
+2. Iterate through every city from `0` to `n - 1`.
+3. If the city is unvisited, increment the province count.
+4. Run DFS from that city to visit all directly and indirectly connected cities.
+5. Mark each visited city to avoid revisiting it.
+6. Return the total province count.
+
+## Complexity
+
+* **Time Complexity:** O(n²)
+* **Space Complexity:** O(n)
+
+## Key Takeaway
+
+Each DFS started from an unvisited city represents one connected component, which corresponds to one province.
+
+## Pattern
+
+Graph Traversal + Connected Components + DFS + Adjacency Matrix
+
+## Word of the Day
+
+**Connectivity:** The property of being linked or connected within a graph.
