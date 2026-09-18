@@ -117,3 +117,136 @@ Graph Traversal + Connected Components + DFS + Adjacency Matrix
 ## Word of the Day
 
 **Connectivity:** The property of being linked or connected within a graph.
+
+
+# 733. Flood Fill
+
+**LeetCode:** [733. Flood Fill](https://leetcode.com/problems/flood-fill/)
+**Difficulty:** Easy
+**Topic:** Graph, DFS, Matrix
+
+---
+
+## Problem
+
+Given an `m × n` image, start from pixel `(sr, sc)` and change its color to the given `color`.
+
+Change all pixels that:
+
+* Have the **same original color** as the starting pixel.
+* Are **directly connected** horizontally or vertically.
+
+Diagonal cells are not considered connected.
+
+---
+
+## Example
+
+```text
+Input:
+
+1 1 1
+1 1 0
+1 0 1
+
+Start = (1,1)
+New Color = 2
+```
+
+```text
+Output:
+
+2 2 2
+2 2 0
+2 0 1
+```
+
+The bottom-right `1` remains unchanged because it is not connected to the starting pixel.
+
+---
+
+## Approach
+
+Use **DFS (Depth-First Search)** to visit all connected pixels having the original color.
+
+### Steps
+
+1. Store the starting pixel's original color.
+2. If the original color is already equal to the new color, return the image.
+3. Start DFS from `(sr, sc)`.
+4. Check whether the current cell is inside the grid.
+5. If its color is different from the original color, stop.
+6. Change the current cell to the new color.
+7. Recursively visit the four adjacent cells:
+
+   * Up
+   * Down
+   * Left
+   * Right
+8. Return the modified image.
+
+### Direction Diagram
+
+```text
+        Up
+         ↑
+         |
+Left ← Current → Right
+         |
+         ↓
+       Down
+```
+
+---
+
+## Edge Case
+
+If:
+
+```text
+image[sr][sc] == color
+```
+
+return immediately.
+
+Otherwise, DFS can keep processing cells without actually changing their color.
+
+---
+
+## Complexity
+
+**Time:** `O(m × n)`
+
+**Space:** `O(m × n)` in the worst case due to recursion.
+
+---
+
+## Key Takeaway
+
+Flood Fill is a **DFS/BFS grid traversal** problem.
+
+Think of:
+
+```text
+Grid Cell = Node
+Adjacent Cell = Edge
+DFS/BFS = Traversal
+Same Color = Condition
+```
+
+The same pattern is useful for problems like **Number of Islands** and **Max Area of Island**.
+
+---
+
+## Pattern
+
+**Grid → 4 Directions → DFS/BFS → Connected Component**
+
+---
+
+## Word of the Day
+
+**Adjacent** — directly next to something.
+
+Example:
+`Cells sharing a side are adjacent cells.`
