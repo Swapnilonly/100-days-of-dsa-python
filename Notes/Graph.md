@@ -250,3 +250,159 @@ The same pattern is useful for problems like **Number of Islands** and **Max Are
 
 Example:
 `Cells sharing a side are adjacent cells.`
+
+
+# 🌴 Number of Islands
+
+**LeetCode:** [200. Number of Islands](https://leetcode.com/problems/number-of-islands/)
+**Difficulty:** Medium
+**Topic:** Graph, DFS, BFS, Grid Traversal
+
+---
+
+## 📝 Problem
+
+Given an `m x n` binary grid:
+
+* `"1"` represents **land**
+* `"0"` represents **water**
+
+An island is formed by connecting adjacent land cells **horizontally or vertically**.
+
+Return the **number of islands**.
+
+Diagonal connections are **not allowed**.
+
+### Example
+
+```text
+1 1 0 0
+1 0 0 1
+0 0 1 1
+```
+
+There are **2 islands**.
+
+---
+
+## 💡 Approach
+
+Treat the grid as a **graph**:
+
+* Each land cell (`"1"`) = node
+* Adjacent land cells = connected nodes
+* One connected group of land = one island
+
+Use **DFS** to explore each complete island.
+
+---
+
+## 🔢 Steps
+
+1. Traverse every cell of the grid.
+2. If the cell is `"0"`, ignore it.
+3. If the cell is `"1"` and not visited:
+
+   * Increment the island count.
+   * Start DFS from that cell.
+4. In DFS, visit the cell and check its four directions:
+
+   * Top
+   * Bottom
+   * Left
+   * Right
+5. Mark connected land cells as visited.
+6. Continue scanning the grid.
+7. Return the total island count.
+
+### Direction Pattern
+
+```text
+       Top
+        ↑
+        |
+Left ←  X  → Right
+        |
+        ↓
+      Bottom
+```
+
+---
+
+## 🔍 Key Idea
+
+The important observation is:
+
+> **Every time we find an unvisited land cell, we have discovered a new island.**
+
+DFS then explores the entire connected island so that its other cells are not counted as separate islands.
+
+```text
+New "1"
+   ↓
+New Island → count + 1
+   ↓
+DFS
+   ↓
+Visit all connected "1"s
+```
+
+---
+
+## ⚠️ Edge Cases
+
+* Empty grid
+* Grid containing only water
+* Grid containing only land
+* Single-cell island
+* Diagonal land cells are separate islands
+
+Example:
+
+```text
+1 0
+0 1
+```
+
+Answer:
+
+```text
+2
+```
+
+because diagonal cells are not connected.
+
+---
+
+## ⏱️ Complexity
+
+**Time:** `O(m × n)`
+
+Each cell is processed at most once.
+
+**Space:** `O(m × n)`
+
+For the `visited` set and DFS recursion stack in the worst case.
+
+---
+
+## 🔗 Pattern
+
+**Connected Components + DFS/BFS**
+
+This problem is essentially finding the number of **connected components** in a grid.
+
+Similar problems:
+
+* Flood Fill
+* Number of Provinces
+* Max Area of Island
+* Surrounded Regions
+
+---
+
+## 🎯 Key Takeaway
+
+> **Scan the entire grid → find an unvisited ****`1`**** → count one island → DFS/BFS to visit the complete connected component.**
+
+The main difference from **Flood Fill** is that Flood Fill explores one given component, while Number of Islands requires us to **find and count every connected component**.
