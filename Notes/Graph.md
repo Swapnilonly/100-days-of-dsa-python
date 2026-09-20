@@ -406,3 +406,123 @@ Similar problems:
 > **Scan the entire grid → find an unvisited ****`1`**** → count one island → DFS/BFS to visit the complete connected component.**
 
 The main difference from **Flood Fill** is that Flood Fill explores one given component, while Number of Islands requires us to **find and count every connected component**.
+
+
+# 🏝️ Max Area of Island
+
+**LeetCode:** [695. Max Area of Island](https://leetcode.com/problems/max-area-of-island/)
+**Difficulty:** Medium
+**Topic:** Graph, DFS, Matrix, Connected Components
+
+---
+
+## 📝 Problem
+
+Given a binary matrix `grid`, where:
+
+* `1` represents **land**
+* `0` represents **water**
+
+Find the **maximum area of an island**.
+
+An island is a group of connected `1`s connected **up, down, left, or right**.
+
+---
+
+## 💡 Approach
+
+Use **DFS (Depth-First Search)** to explore every island.
+
+For each unvisited land cell:
+
+1. Start DFS.
+2. Mark the cell as visited.
+3. Count the current cell as `1`.
+4. Explore its four neighboring cells.
+5. Add the areas returned by those recursive calls.
+6. Return the total area of that island.
+7. Update `max_area`.
+
+---
+
+## 🔢 Steps
+
+1. Create a `visited` set to track visited cells.
+2. Traverse every cell in the grid.
+3. If the cell is land (`1`) and not visited:
+
+   * Start DFS.
+   * Calculate the complete island area.
+4. Compare the island area with `max_area`.
+5. Return `max_area`.
+
+### DFS Directions
+
+```text
+        Up
+        ↑
+Left ← Cell → Right
+        ↓
+       Down
+```
+
+---
+
+## ⚠️ Edge Cases
+
+* Grid contains only water → `0`
+* Grid contains one island → return its area
+* Multiple separate islands → return the largest area
+* Single-cell island → area is `1`
+* Island touches the boundary → still count normally
+
+---
+
+## ⏱️ Complexity
+
+**Time:** `O(rows × cols)`
+
+Each cell is visited at most once.
+
+**Space:** `O(rows × cols)`
+
+For the `visited` set and recursion stack.
+
+---
+
+## 🔑 Key Takeaway
+
+The important idea is:
+
+> **DFS can return the size of a connected component.**
+
+For every land cell:
+
+```text
+Island Area =
+Current Cell
++ Top
++ Bottom
++ Left
++ Right
+```
+
+This makes the problem a **Connected Components** problem on a grid.
+
+---
+
+## 🧩 Pattern
+
+**Grid + Connected Cells + Largest/Smallest Component**
+
+→ Think **DFS/BFS + Visited**
+
+Common problems using the same pattern:
+
+* Number of Islands
+* Max Area of Island
+* Flood Fill
+* Number of Provinces
+* Connected Components
+
+##
