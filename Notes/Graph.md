@@ -526,3 +526,160 @@ Common problems using the same pattern:
 * Connected Components
 
 ##
+
+
+# 133. Clone Graph
+
+**LeetCode:** https://leetcode.com/problems/clone-graph/
+**Difficulty:** Medium
+**Topic:** Graph, BFS, Hash Map
+
+---
+
+## Problem
+
+Given a reference to a node in a connected undirected graph, return a **deep copy (clone)** of the graph.
+
+Each node contains:
+
+* `val` → integer value
+* `neighbors` → list of connected `Node` objects
+
+The cloned graph must contain completely new nodes.
+
+---
+
+## Approach
+
+Use **BFS + Hash Map**.
+
+We maintain a mapping:
+
+```text
+Original Node → Cloned Node
+```
+
+Example:
+
+```text
+Original        Clone
+
+Node(1)   →     Node(1')
+Node(2)   →     Node(2')
+Node(3)   →     Node(3')
+```
+
+The mapping also works as a `visited` structure because if a node exists in the dictionary, its clone has already been created.
+
+---
+
+## Steps
+
+1. If the input node is `None`, return `None`.
+
+2. Create the first clone and store it in the dictionary:
+
+```text
+Original Node → Clone Node
+```
+
+3. Put the original node into the BFS queue.
+
+4. While the queue is not empty:
+
+   * Remove one original node.
+   * Traverse all its neighbors.
+   * If a neighbor has not been cloned:
+
+     * Create its clone.
+     * Add it to the dictionary.
+     * Add the original neighbor to the queue.
+   * Connect the current cloned node with the neighbor's clone.
+
+5. Return the clone of the starting node.
+
+---
+
+## Graph Flow
+
+```text
+Original Graph
+
+    1
+   / \
+  2   4
+   \ /
+    3
+```
+
+Create clones:
+
+```text
+1 → 1'
+2 → 2'
+3 → 3'
+4 → 4'
+```
+
+Then create the same connections between the cloned nodes.
+
+```text
+Cloned Graph
+
+    1'
+   /  \
+  2'   4'
+   \  /
+    3'
+```
+
+---
+
+## Edge Case
+
+* Empty graph → return `None`
+* Single node → clone the node
+* Graph containing cycles → dictionary prevents creating duplicate clones
+* Self-loop → the node can correctly point to its own clone
+
+---
+
+## Complexity
+
+**Time:** `O(V + E)`
+
+**Space:** `O(V)`
+
+Where:
+
+* `V` = number of vertices
+* `E` = number of edges
+
+---
+
+## Key Takeaway
+
+The most important idea is:
+
+```text
+Original Node → Cloned Node
+```
+
+The dictionary serves two purposes:
+
+1. Prevents cloning the same node multiple times.
+2. Helps us find the cloned node when creating edges.
+
+### Pattern
+
+**Graph Traversal + Hash Map**
+
+```text
+BFS/DFS
+   +
+Original → Clone Mapping
+```
+
+This pattern is useful whenever we need to **copy/clone a graph containing cycles**.
+
+##
