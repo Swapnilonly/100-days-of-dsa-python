@@ -683,3 +683,322 @@ Original → Clone Mapping
 This pattern is useful whenever we need to **copy/clone a graph containing cycles**.
 
 ##
+
+
+
+# 542. 01 Matrix
+
+**LeetCode:** https://leetcode.com/problems/01-matrix/  
+**Difficulty:** Medium  
+**Topic:** Graph, BFS, Multi-Source BFS
+
+---
+
+## Problem
+
+Given an `m x n` binary matrix, return a matrix where each cell contains the shortest distance to the nearest `0`.
+
+The distance between two cells sharing a common edge is `1`.
+
+---
+
+## Approach
+
+Use **Multi-Source BFS**.
+
+Instead of running BFS separately for every cell containing `1`, start BFS from all cells containing `0` simultaneously.
+
+We maintain a distance matrix:
+
+```text
+Distance Matrix
+
+0 → Distance 0
+1 → Distance to nearest 0
+```
+
+All zero cells are the initial BFS sources.
+
+---
+
+## Steps
+
+1. Initialize a distance matrix with infinity for all cells.
+
+2. Traverse the input matrix and find all cells containing `0`.
+
+3. Set the distance of every zero cell to `0` and add it to the BFS queue.
+
+4. While the queue is not empty:
+
+   * Remove one cell from the queue.
+   * Explore its four neighbors: up, down, left, and right.
+   * If a shorter distance is found:
+     * Update the neighbor's distance.
+     * Add the neighbor to the queue.
+
+5. Return the distance matrix.
+
+---
+
+## Graph Flow
+
+Example:
+
+```text
+Input Matrix
+
+0  0  0
+0  1  0
+1  1  1
+```
+
+Initialize all zero cells as BFS sources:
+
+```text
+Initial Distance
+
+0  0  0
+0  ∞  0
+∞  ∞  ∞
+```
+
+After BFS:
+
+```text
+Final Distance
+
+0  0  0
+0  1  0
+1  2  1
+```
+
+Each cell contains the shortest distance to its nearest zero.
+
+---
+
+## Edge Case
+
+* Empty matrix → return an empty matrix
+* Matrix containing only zeros → return all zeros
+* Matrix containing only ones → not possible under the problem constraints, which guarantee at least one zero
+* Multiple zero cells → start BFS from all zero cells simultaneously
+
+---
+
+## Complexity
+
+**Time:** `O(m * n)`
+
+**Space:** `O(m * n)`
+
+Where:
+
+* `m` = number of rows
+* `n` = number of columns
+
+---
+
+## Key Takeaway
+
+The most important idea is:
+
+```text
+All Zero Cells → Initial BFS Queue
+```
+
+The first time BFS reaches a cell, it finds the shortest distance to the nearest zero.
+
+### Pattern
+
+**Multi-Source BFS**
+
+```text
+Multiple Sources
+       +
+   BFS Queue
+       +
+Shortest Distance
+```
+
+This pattern is useful whenever we need to find the shortest distance from every cell to its nearest source in an unweighted grid.
+
+##
+
+
+
+
+# 994. Rotting Oranges
+
+**LeetCode:** https://leetcode.com/problems/rotting-oranges/  
+**Difficulty:** Medium  
+**Topic:** Graph, BFS, Multi-Source BFS
+
+---
+
+## Problem
+
+You are given an `m x n` grid where:
+
+* `0` → Empty cell
+* `1` → Fresh orange
+* `2` → Rotten orange
+
+Every minute, a rotten orange makes all adjacent fresh oranges rotten.
+
+Return the minimum number of minutes required until no fresh orange remains.
+
+If it is impossible for all fresh oranges to rot, return `-1`.
+
+---
+
+## Approach
+
+Use **Multi-Source BFS**.
+
+All initially rotten oranges are added to the queue as starting points.
+
+We process the queue level by level, where each BFS level represents one minute.
+
+Maintain:
+
+```text
+Queue → Rotten orange positions
+Fresh → Number of fresh oranges remaining
+Minutes → Number of BFS levels processed
+```
+
+---
+
+## Steps
+
+1. Traverse the grid and add all rotten oranges to the queue.
+
+2. Count the total number of fresh oranges.
+
+3. While the queue is not empty and fresh oranges remain:
+
+   * Process all oranges currently in the queue.
+   * Check their four neighbors: up, down, left, and right.
+   * If a neighboring cell contains a fresh orange:
+     * Make it rotten.
+     * Decrease the fresh-orange count.
+     * Add its position to the queue.
+   * Increment the minutes after processing one complete BFS level.
+
+4. If fresh oranges remain, return `-1`.
+
+5. Otherwise, return the total minutes.
+
+---
+
+## Graph Flow
+
+Example:
+
+```text
+Input Grid
+
+2  1  1
+1  1  0
+0  1  1
+```
+
+Initially:
+
+```text
+2  1  1
+1  1  0
+0  1  1
+```
+
+After 1 minute:
+
+```text
+2  2  1
+2  1  0
+0  1  1
+```
+
+After 2 minutes:
+
+```text
+2  2  2
+2  2  0
+0  1  1
+```
+
+After 3 minutes:
+
+```text
+2  2  2
+2  2  0
+0  2  1
+```
+
+After 4 minutes:
+
+```text
+2  2  2
+2  2  0
+0  2  2
+```
+
+Output:
+
+```text
+4
+```
+
+---
+
+## Edge Case
+
+* No fresh oranges → return `0`
+* No rotten oranges but fresh oranges exist → return `-1`
+* Fresh oranges that cannot be reached by rotten oranges → return `-1`
+* Multiple rotten oranges → start BFS from all rotten oranges simultaneously
+* Empty cells → cannot spread rot through them
+
+---
+
+## Complexity
+
+**Time:** `O(m * n)`
+
+**Space:** `O(m * n)`
+
+Where:
+
+* `m` = number of rows
+* `n` = number of columns
+
+---
+
+## Key Takeaway
+
+The most important idea is:
+
+```text
+All Rotten Oranges → Initial BFS Queue
+```
+
+Each BFS level represents one minute.
+
+All rotten oranges spread simultaneously, so Multi-Source BFS calculates the minimum time required to rot all reachable fresh oranges.
+
+### Pattern
+
+**Multi-Source BFS + Level Order Traversal**
+
+```text
+Multiple Sources
+       +
+BFS Level = 1 Minute
+       +
+Fresh Orange Counter
+```
+
+This pattern is useful for grid problems involving simultaneous spreading, shortest distance, and minimum time.
+
+##
