@@ -1002,3 +1002,61 @@ Fresh Orange Counter
 This pattern is useful for grid problems involving simultaneous spreading, shortest distance, and minimum time.
 
 ##
+
+
+
+# 130. Surrounded Regions
+
+**LeetCode:** [130. Surrounded Regions](https://leetcode.com/problems/surrounded-regions/)
+**Difficulty:** Medium
+**Topic:** Graph, DFS, Matrix Traversal
+
+---
+
+## Problem
+
+Given an `m x n` board containing `'X'` and `'O'`, capture all surrounded regions by replacing their `'O'` cells with `'X'`.
+
+An `'O'` region is surrounded if none of its cells are connected to the boundary of the board.
+
+Modify the board in-place.
+
+---
+
+## Approach
+
+**Boundary DFS + In-Place Marking**
+
+Instead of finding surrounded regions directly, identify all safe `'O'` cells connected to the boundary.
+
+1. Traverse all boundary cells.
+2. Start DFS from every boundary `'O'`.
+3. Mark all connected `'O'` cells as `'#'` to indicate they are safe.
+4. Traverse the entire board:
+   - Convert remaining `'O'` to `'X'`.
+   - Restore `'#'` to `'O'`.
+
+---
+
+## Steps
+
+1. Check if the board is empty.
+2. Run DFS from `'O'` cells in the first and last columns.
+3. Run DFS from `'O'` cells in the first and last rows.
+4. Convert all unmarked `'O'` cells to `'X'`.
+5. Restore all `'#'` cells to `'O'`.
+
+---
+
+## Complexity
+
+- **Time:** O(m × n)
+- **Space:** O(m × n) — DFS stack in the worst case.
+
+---
+
+## Key Takeaway
+
+Boundary-connected `'O'` cells can never be captured.
+
+**Pattern:** Boundary Traversal + DFS + In-Place Marking.
