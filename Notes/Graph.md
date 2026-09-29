@@ -1060,3 +1060,93 @@ Instead of finding surrounded regions directly, identify all safe `'O'` cells co
 Boundary-connected `'O'` cells can never be captured.
 
 **Pattern:** Boundary Traversal + DFS + In-Place Marking.
+
+
+# Course Schedule
+
+🔗 **LeetCode:** https://leetcode.com/problems/course-schedule/
+**Difficulty:** Medium
+**Topic:** Graph, DFS, Cycle Detection, Directed Graph
+
+## Problem
+
+You are given `n` courses and a list of prerequisite pairs.
+
+Each pair `[a, b]` means:
+
+> To take course `a`, you must first complete course `b`.
+
+Determine whether it is possible to finish all courses.
+
+The problem can be reduced to:
+
+> **Check whether the directed graph contains a cycle.**
+
+* Cycle exists → Cannot finish all courses
+* No cycle → Can finish all courses
+
+## Example
+
+```text
+Input:
+n = 3
+edges = [[1,0], [2,1]]
+
+Graph:
+0 → 1 → 2
+
+Output:
+True
+```
+
+```text
+Input:
+n = 3
+edges = [[1,0], [2,1], [0,2]]
+
+Graph:
+0 → 1 → 2
+↑         ↓
+└─────────┘
+
+Output:
+False
+```
+
+## Approach
+
+Use **DFS with two boolean arrays**:
+
+* `vis` → tracks whether a node has ever been visited.
+* `recpath` → tracks whether a node is present in the current DFS recursion path.
+
+### Steps
+
+1. Initialize `vis` and `recpath` with `False`.
+2. Start DFS from every unvisited node.
+3. When entering a node:
+
+   * Mark it as visited.
+   * Mark it in the current recursion path.
+4. Traverse all neighboring nodes.
+5. If a neighbor is already in `recpath`, a cycle exists.
+6. If a neighbor is not visited, recursively explore it.
+7. After finishing the node, remove it from `recpath`.
+8. If any DFS detects a cycle, return `False`.
+9. If all nodes are processed without a cycle, return `True`.
+
+## Important Concept
+
+### `vis` vs `recpath`
+
+```text
+vis
+↓
+Have I visited this node before?
+
+recpath
+↓
+Is this node part of my current DFS path?
+```
+
+Cycle d
