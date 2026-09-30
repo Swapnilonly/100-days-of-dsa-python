@@ -1150,3 +1150,142 @@ Is this node part of my current DFS path?
 ```
 
 Cycle d
+
+
+
+# 210. Course Schedule II
+
+**LeetCode:** https://leetcode.com/problems/course-schedule-ii/
+**Difficulty:** Medium
+**Topic:** Graph, Topological Sort, BFS, Kahn's Algorithm
+
+---
+
+## Problem
+
+There are `numCourses` courses labeled from `0` to `numCourses - 1`.
+
+`prerequisites[i] = [a, b]` means you must complete course `b` before taking course `a`.
+
+Return a valid ordering of courses that allows you to finish all courses.
+
+If it is impossible because of a cycle, return an empty array.
+
+---
+
+## Approach
+
+Use **Topological Sort using BFS (Kahn's Algorithm)**.
+
+For every prerequisite `[a, b]`, create a directed edge:
+
+```text
+b → a
+```
+
+This means `b` must be completed before `a`.
+
+### Steps
+
+1. Create an adjacency list for the graph.
+2. Calculate the `indegree` of every course.
+3. Add all courses with `indegree = 0` to the queue.
+4. Remove a course from the queue and add it to the result.
+5. Reduce the indegree of all courses connected to it.
+6. If a course's indegree becomes `0`, add it to the queue.
+7. After BFS, check the number of courses in the result.
+8. If all courses are processed, return the result.
+9. Otherwise, a cycle exists, so return `[]`.
+
+---
+
+## Example
+
+```text
+numCourses = 4
+
+prerequisites = [
+    [1, 0],
+    [2, 0],
+    [3, 1],
+    [3, 2]
+]
+```
+
+Graph:
+
+```text
+0 → 1 → 3
+↓       ↑
+└→ 2 ───┘
+```
+
+One valid ordering:
+
+```text
+[0, 1, 2, 3]
+```
+
+Another valid ordering can also exist.
+
+---
+
+## Edge Case
+
+If prerequisites contain a cycle:
+
+```text
+0 → 1 → 2 → 0
+```
+
+No valid ordering exists.
+
+Return:
+
+```text
+[]
+```
+
+---
+
+## Complexity
+
+```text
+Time:  O(V + E)
+Space: O(V + E)
+```
+
+Where:
+
+* `V` = number of courses
+* `E` = number of prerequisite relationships
+
+---
+
+## Key Takeaway
+
+**Kahn's Algorithm = BFS + Indegree**
+
+A course can be processed when its `indegree` becomes `0`.
+
+If the number of processed courses is less than `numCourses`, the graph contains a cycle.
+
+---
+
+## Pattern
+
+```text
+Prerequisites
+      ↓
+Directed Graph
+      ↓
+Indegree
+      ↓
+Indegree = 0
+      ↓
+Queue
+      ↓
+BFS
+      ↓
+Topological Order
+```
