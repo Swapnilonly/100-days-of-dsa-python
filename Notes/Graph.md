@@ -1289,3 +1289,166 @@ BFS
       ↓
 Topological Order
 ```
+
+
+# 802. Find Eventual Safe States
+
+**LeetCode:** https://leetcode.com/problems/find-eventual-safe-states/
+**Difficulty:** Medium
+**Topic:** Graph, BFS, Topological Sort, Reverse Graph
+
+---
+
+## Problem
+
+Given a directed graph, return all **eventual safe nodes**.
+
+A node is considered safe if **every possible path starting from that node eventually reaches a terminal node**.
+
+A terminal node is a node with **no outgoing edges**.
+
+The answer should be returned in sorted order.
+
+---
+
+## Approach
+
+### Reverse Graph + Outdegree + BFS
+
+Instead of starting from every node and checking whether it eventually reaches a cycle, start from the **terminal nodes** and work backwards.
+
+### Steps
+
+1. Calculate the **outdegree** of every node.
+2. Add all nodes with `outdegree = 0` to a queue.
+3. Create the **reverse graph**:
+
+   * If the original graph has `u → v`
+   * The reverse graph contains `v → u`
+4. Perform BFS starting from the terminal nodes.
+5. When a safe node is removed from the queue:
+
+   * Visit all its previous nodes in the reverse graph.
+   * Decrease their outdegree by `1`.
+6. If a node's outdegree becomes `0`, all of its outgoing paths now lead to safe nodes, so it is also safe.
+7. Continue until the queue becomes empty.
+8. Sort and return all discovered safe nodes.
+
+---
+
+## Example
+
+```text
+Graph:
+
+0 → 1
+1 → 2
+2 → []
+
+Reverse Graph:
+
+0 ← 1 ← 2
+```
+
+Start with terminal node:
+
+```text
+2
+```
+
+Then:
+
+```text
+2 becomes safe
+↓
+1 becomes safe
+↓
+0 becomes safe
+```
+
+Result:
+
+```text
+[0, 1, 2]
+```
+
+---
+
+## Why Reverse Graph?
+
+In the original graph, we need to determine:
+
+```text
+Does every outgoing path eventually become safe?
+```
+
+The reverse graph allows us to start from nodes that are **already known to be safe** and propagate that information backwards.
+
+```text
+Terminal
+   ↓
+Safe predecessor
+   ↓
+Safe predecessor
+   ↓
+Safe predecessor
+```
+
+---
+
+## Edge Case
+
+* Empty graph
+* Graph containing only terminal nodes
+* Graph containing cycles
+* Nodes pointing to cycles
+* Disconnected components
+
+Nodes that belong to a cycle, or can reach a cycle, will not reach outdegree `0` during BFS and therefore won't be added to the safe nodes.
+
+---
+
+## Complexity
+
+Let:
+
+* `V` = number of vertices
+* `E` = number of edges
+
+### Time Complexity
+
+```text
+O(V + E + V log V)
+```
+
+`O(V + E)` for reverse graph construction and BFS, plus `O(V log V)` for sorting the result.
+
+### Space Complexity
+
+```text
+O(V + E)
+```
+
+For the reverse graph, outdegree array, queue, and safe nodes.
+
+---
+
+## Key Takeaway
+
+> **Start from terminal nodes and propagate safety backwards using a reverse graph.**
+
+The important observation is:
+
+```text
+outdegree = 0
+      ↓
+   safe node
+      ↓
+decrease predecessor's outdegree
+      ↓
+outdegree = 0
+      ↓
+   safe node
+```
+
+This converts the problem into a **Topological Sort-style BFS** problem.
