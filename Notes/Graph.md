@@ -1452,3 +1452,144 @@ outdegree = 0
 ```
 
 This converts the problem into a **Topological Sort-style BFS** problem.
+
+
+
+# 743. Network Delay Time
+
+**LeetCode:** https://leetcode.com/problems/network-delay-time/
+**Difficulty:** Medium
+**Topic:** Graph, Dijkstra, Priority Queue, Shortest Path
+
+---
+
+## Problem
+
+You are given a directed weighted graph where:
+
+```text
+times[i] = [u, v, w]
+```
+
+means it takes `w` units of time for a signal to travel from node `u` to node `v`.
+
+A signal starts from node `k`.
+
+Return the minimum time required for **all nodes** to receive the signal.
+
+If some node cannot be reached, return `-1`.
+
+---
+
+## Approach
+
+Use **Dijkstra's Algorithm with a Priority Queue (Min Heap)**.
+
+Since all edge weights represent travel time and are non-negative, Dijkstra can find the shortest time from the starting node `k` to every other node.
+
+The answer is the **maximum shortest distance** because the signal must reach every node.
+
+---
+
+## Steps
+
+1. Build an adjacency list using `defaultdict(list)`.
+2. Store each edge as `(neighbor, weight)`.
+3. Create a `distances` dictionary and initialize all distances to infinity.
+4. Set the distance of the starting node `k` to `0`.
+5. Use a min heap containing `(time, node)`.
+6. Always process the node with the smallest current time.
+7. For each neighbor:
+
+   * Calculate the new travel time.
+   * If it is smaller than the previously known distance, update it.
+   * Push the updated distance into the heap.
+8. Find the maximum value in `distances`.
+9. If any node is still unreachable (`inf`), return `-1`.
+
+---
+
+## Example
+
+```text
+times = [
+    [2, 1, 1],
+    [2, 3, 1],
+    [3, 4, 1]
+]
+
+n = 4
+k = 2
+```
+
+Graph:
+
+```text
+      1
+     ↑
+     |
+     2
+     |
+     ↓
+     3
+     |
+     ↓
+     4
+```
+
+Shortest distances from node `2`:
+
+```text
+2 → 2 = 0
+2 → 1 = 1
+2 → 3 = 1
+2 → 4 = 2
+```
+
+Therefore:
+
+```text
+Maximum shortest distance = 2
+```
+
+Answer:
+
+```text
+2
+```
+
+---
+
+## Complexity
+
+Let:
+
+* `V` = number of nodes
+* `E` = number of edges
+
+```text
+Time Complexity:  O((V + E) log V)
+Space Complexity: O(V + E)
+```
+
+---
+
+## Key Takeaway
+
+When a problem asks for the **shortest path from one source to all other nodes** in a graph with **non-negative edge weights**, think:
+
+```text
+Dijkstra
+   ↓
+Priority Queue / Min Heap
+   ↓
+Shortest distance to every node
+   ↓
+Maximum distance = Network Delay Time
+```
+
+If any node remains unreachable:
+
+```text
+return -1
+```
