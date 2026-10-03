@@ -1593,3 +1593,290 @@ If any node remains unreachable:
 ```text
 return -1
 ```
+
+
+# 🚶 Path With Minimum Effort
+
+🔗 **LeetCode:** https://leetcode.com/problems/path-with-minimum-effort/
+**Difficulty:** Medium
+**Topic:** Graph, Dijkstra, Priority Queue, Shortest Path
+
+---
+
+## 🧩 Problem
+
+You are given a 2D grid `heights`.
+
+You start from the **top-left** cell `(0, 0)` and need to reach the **bottom-right** cell.
+
+You can move:
+
+* Up
+* Down
+* Left
+* Right
+
+The **effort** of a route is the **maximum absolute difference in heights between two consecutive cells**.
+
+Return the **minimum effort** required to reach the destination.
+
+### Example
+
+```text
+heights = [
+    [1, 2, 2],
+    [3, 8, 2],
+    [5, 3, 5]
+]
+```
+
+Answer:
+
+```text
+2
+```
+
+---
+
+## 💡 Approach
+
+Use **Dijkstra's Algorithm with a Priority Queue (Min Heap)**.
+
+Normally, Dijkstra minimizes:
+
+```text
+total path distance
+```
+
+But here, the path cost is:
+
+```text
+maximum height difference along the path
+```
+
+So instead of:
+
+```python
+new_distance = current_distance + edge_weight
+```
+
+we use:
+
+```python
+new_effort = max(current_effort, edge_difference)
+```
+
+---
+
+## 🔍 Steps
+
+1. Treat every cell as a **graph node**.
+2. Each cell has up to 4 neighboring nodes.
+3. The edge weight between two cells is:
+
+```python
+abs(heights[row][col] - heights[new_row][new_column])
+```
+
+4. Maintain `efforts[row][col]`, representing the minimum effort required to reach that cell.
+5. Start with:
+
+```text
+efforts[0][0] = 0
+```
+
+6. Use a **min heap**:
+
+```text
+(effort, row, column)
+```
+
+7. For every neighbor:
+
+   * Calculate the height difference.
+   * Calculate the new path effort using `max()`.
+   * If the new effort is smaller, update the neighbor.
+8. When the destination is removed from the min heap, return its effort.
+
+---
+
+## 🔄 Relaxation Formula
+
+For an edge:
+
+```text
+current cell → next cell
+```
+
+calculate:
+
+```python
+difference = abs(
+    heights[row][column] -
+    heights[new_row][new_column]
+)
+```
+
+Then:
+
+```python
+new_effort = max(current_effort, difference)
+```
+
+Update if:
+
+```python
+new_effort < efforts[new_row][new_column]
+```
+
+### Important Difference from Normal Dijkstra
+
+```text
+Normal Dijkstra:
+new_distance = current_distance + edge_weight
+
+Minimum Effort Path:
+new_effort = max(current_effort, edge_weight)
+```
+
+---
+
+## 🧪 Dry Run
+
+Consider:
+
+```text
+1  2
+3  5
+```
+
+Start:
+
+```text
+(0,0) = 1
+```
+
+Possible moves:
+
+```text
+1 → 2 = 1
+1 → 3 = 2
+```
+
+Suppose we go:
+
+```text
+1 → 2 → 5
+```
+
+Differences:
+
+```text
+|1 - 2| = 1
+|2 - 5| = 3
+```
+
+Path effort:
+
+```text
+max(1, 3) = 3
+```
+
+Another path:
+
+```text
+1 → 3 → 5
+```
+
+Differences:
+
+```text
+|1 - 3| = 2
+|3 - 5| = 2
+```
+
+Path effort:
+
+```text
+max(2, 2) = 2
+```
+
+Therefore:
+
+```text
+Minimum effort = 2
+```
+
+---
+
+## 🧠 Key Insight
+
+The important observation is:
+
+> We are not minimizing the sum of differences. We are minimizing the largest difference encountered on the path.
+
+Therefore, Dijkstra can still be used because we can maintain the **minimum possible effort required to reach each cell**.
+
+The priority queue always processes the cell with the smallest known effort first.
+
+---
+
+## ⏱️ Complexity
+
+Let:
+
+```text
+V = rows × columns
+```
+
+Each cell has at most 4 edges.
+
+### Time
+
+```text
+O(V log V)
+```
+
+or:
+
+```text
+O(rows × columns × log(rows × columns))
+```
+
+### Space
+
+```text
+O(V)
+```
+
+for the effort matrix and priority queue.
+
+---
+
+## 🎯 Pattern
+
+```text
+Grid
+ ↓
+Graph
+ ↓
+Weighted Edges
+ ↓
+Dijkstra
+ ↓
+Modified Relaxation
+ ↓
+min(maximum edge difference)
+```
+
+### Remember
+
+```python
+new_effort = max(current_effort, edge_difference)
+```
+
+**Not:**
+
+```python
+new_effort = current_effort + edge_difference
+```
