@@ -1880,3 +1880,108 @@ new_effort = max(current_effort, edge_difference)
 ```python
 new_effort = current_effort + edge_difference
 ```
+
+
+
+
+# 1319. Number of Operations to Make Network Connected
+
+**LeetCode:** https://leetcode.com/problems/number-of-operations-to-make-network-connected/  
+**Difficulty:** Medium  
+**Topic:** Graph, Disjoint Set Union (DSU), Union-Find
+
+---
+
+## Problem
+
+You are given `n` computers and a list of connections between them.
+
+A cable can be removed from one connection and reused to connect two currently disconnected computers.
+
+Return the **minimum number of operations** required to make all computers connected.
+
+If it is impossible, return `-1`.
+
+---
+
+## Approach
+
+Use **Disjoint Set Union (DSU)** to keep track of connected components.
+
+### Steps
+
+1. A network with `n` computers needs at least `n - 1` cables.
+2. If `len(connections) < n - 1`, return `-1`.
+3. Initialize DSU where every computer starts as its own component.
+4. Process each connection:
+   - Find the root of both computers.
+   - If both have the same root, the connection is redundant.
+   - Otherwise, union the two components.
+5. Keep track of the number of connected components.
+6. To connect `k` components, we need `k - 1` operations.
+7. Return `components - 1`.
+
+### Example
+
+```text
+n = 6
+
+connections = [
+    [0, 1],
+    [0, 2],
+    [0, 3],
+    [1, 2],
+    [1, 3]
+]
+```
+
+After processing:
+
+```text
+{0, 1, 2, 3}    {4}    {5}
+```
+
+There are `3` connected components.
+
+```text
+Required operations = 3 - 1 = 2
+```
+
+---
+
+## Complexity
+
+- **Time:** `O(E × α(N))` — almost `O(E)`
+- **Space:** `O(N)`
+
+Where:
+- `N` = number of computers
+- `E` = number of connections
+- `α(N)` = inverse Ackermann function
+
+---
+
+## Key Takeaway
+
+**DSU helps track connected components efficiently.**
+
+If two computers already have the same root, their connection is **redundant** and can be reused to connect another component.
+
+```text
+components → k
+operations → k - 1
+```
+
+The main pattern is:
+
+```text
+Find roots
+    ↓
+Same root?
+ ↙       ↘
+Yes       No
+ ↓         ↓
+Extra     Union
+edge       ↓
+        components--
+```
