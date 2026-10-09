@@ -30,3 +30,34 @@ class Solution:
 
 
 
+# OPTIMAL SOLUTION
+class Solution:
+    def minInsertions(self, s: str) -> int:
+        insertions = 0
+        open_needed = 0
+        index = 0
+
+        while index < len(s):
+            if s[index] == '(':
+                open_needed += 1
+
+            else:
+                # A closing pair must be ))
+                if index + 1 < len(s) and s[index + 1] == ')':
+                    index += 1
+                else:
+                    # Insert the missing closing parenthesis
+                    insertions += 1
+
+                if open_needed > 0:
+                    open_needed -= 1
+                else:
+                    # Insert a missing opening parenthesis
+                    insertions += 1
+
+            index += 1
+
+        # Each remaining opening parenthesis needs two ')'
+        insertions += open_needed * 2
+
+        return insertions
