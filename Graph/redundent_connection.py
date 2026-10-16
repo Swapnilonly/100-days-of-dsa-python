@@ -27,3 +27,40 @@ class Solution:
                 rank[root_u] += 1
 
         return []
+
+# OPTIMIZED AND UNDERSTANDABLE APPROACH
+class Solution:
+    def findRedundantConnection(self, edges: list[list[int]]) -> list[int]:
+        n = len(edges)
+        parent = list(range(n + 1))
+        size = [1] * (n + 1)
+
+        def find(u):
+            if u != parent[u]:
+                parent[u] = find(parent[u])
+
+            return parent[u]
+
+        # calculate default parent and size
+
+        for u, v in edges:
+            pu = find(u)
+            pv = find(v)
+
+            # check redundent edge
+            if pu == pv:
+                return [u, v]
+
+            if size[pu] < size[pv]:
+                parent[pu] = pv
+                size[pv] += size[pu]
+
+            elif size[pv] < size[pu]:
+                parent[pv] = pu
+                size[pu] += size[pv]
+
+            else:
+                parent[pv] = pu
+                size[pu] += size[pv]
+
+        return []
