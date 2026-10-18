@@ -31,3 +31,42 @@ class Solution:
             components -= 1
 
         return components - 1
+
+
+class Solution:
+    def makeConnected(self, n: int, connections: list[list[int]]) -> int:
+
+        if len(connections) < n - 1:
+            return -1
+
+        size = [1] * n
+        parent = list(range(n))
+        comp = n
+
+        def find(node):
+            if node != parent[node]:
+                parent[node] = find(parent[node])
+            return parent[node]
+
+        for u, v in connections:
+            pu = find(u)
+            pv = find(v)
+
+            if pu == pv:
+                continue
+
+            if size[pu] > size[pv]:
+                parent[pv] = pu
+                size[pu] += size[pv]
+
+            elif size[pv] > size[pu]:
+                parent[pu] = pv
+                size[pv] += size[pu]
+            else:
+                parent[pv] = pu
+                size[pu] += size[pv]
+
+            comp -= 1
+
+        return comp - 1
+
