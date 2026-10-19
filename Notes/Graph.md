@@ -1985,3 +1985,44 @@ Extra     Union
 edge       ↓
         components--
 ```
+
+
+
+
+# 721. Accounts Merge
+
+- **LeetCode:** [Accounts Merge](https://leetcode.com/problems/accounts-merge/)
+- **Difficulty:** Medium
+- **Topic:** Graph, Disjoint Set Union (DSU)
+
+## Problem
+Merge accounts that belong to the same person. Two accounts belong to the same person if they share at least one email. Return merged accounts with emails sorted alphabetically.
+
+Accounts with the same name but no common email must remain separate.
+
+## Approach
+Use **Disjoint Set Union (DSU)** with Union by Size and Path Compression to group connected accounts.
+
+## Steps
+1. Initialize DSU with one node for each account.
+2. Maintain a `mail_to_node` dictionary mapping each email to the account index where it first appears.
+3. If an email appears for the first time, store its account index.
+4. If the email already exists, union the current account with the previously stored account.
+5. Group each unique email by the ultimate parent of its account.
+6. Sort the emails in each group and prepend the corresponding account name.
+7. Return the merged accounts.
+
+## Complexity
+- **Time:** \(O(N + E\alpha(N) + U\log U)\)
+- **Space:** \(O(N + U)\)
+
+Where:
+- \(N\) = number of accounts
+- \(E\) = total email occurrences
+- \(U\) = number of unique emails
+- \(\alpha(N)\) = inverse Ackermann function
+
+## Key Takeaway
+Use DSU to merge account indices whenever a shared email is found. Grouping emails by their ultimate parent produces the merged accounts.
+
+**Pattern:** DSU — Union by Size + Path Compression
