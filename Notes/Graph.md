@@ -2026,3 +2026,54 @@ Where:
 Use DSU to merge account indices whenever a shared email is found. Grouping emails by their ultimate parent produces the merged accounts.
 
 **Pattern:** DSU — Union by Size + Path Compression
+
+
+# 127. Word Ladder
+
+- **LeetCode:** [Word Ladder](https://leetcode.com/problems/word-ladder/)
+- **Difficulty:** Hard
+- **Topic:** Graph, BFS, Hash Set, Shortest Path
+
+## Problem
+Given `beginWord`, `endWord`, and a word list, find the length of the shortest transformation sequence from `beginWord` to `endWord`.
+
+Rules:
+- Change only one character at a time.
+- Every transformed word must exist in `wordList`.
+- Return `0` if no valid transformation exists.
+
+## Approach
+Use **Breadth-First Search (BFS)** to find the shortest transformation sequence.
+
+## Steps
+1. Convert `wordList` into a set for fast lookups.
+2. If `endWord` is not in the set, return `0`.
+3. Initialize a queue with `(beginWord, 1)`.
+4. Remove each word from the queue and generate possible words by changing one character at a time.
+5. If a generated word exists in the set, add it to the queue with the sequence length increased by one.
+6. Remove the discovered word from the set to mark it as visited.
+7. Return the sequence length when `endWord` is reached.
+8. If the queue becomes empty, return `0`.
+
+## Example
+
+**Input:**
+- `beginWord = "hit"`
+- `endWord = "cog"`
+- `wordList = ["hot", "dot", "dog", "lot", "log", "cog"]`
+
+**Output:** `5`
+
+**Transformation:**
+
+`hit → hot → dot → dog → cog`
+
+## Complexity
+- **Time:** \(O(N \times L^2)\), where \(N\) is the number of words and \(L\) is the word length.
+- **Space:** \(O(N \times L)\) for the set and queue.
+
+## Key Takeaway
+BFS finds the shortest path in an unweighted graph. A hash set enables efficient word lookups, while removing discovered words prevents revisiting them.
+
+## Pattern
+**BFS + Implicit Graph + Visited Set**
